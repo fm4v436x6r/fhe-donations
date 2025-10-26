@@ -1,23 +1,72 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
 import { Layout } from '@/components/Layout';
 import { StatusBadge } from '@/components/StatusBadge';
 import { EncryptedBadge } from '@/components/EncryptedBadge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { mockProjects, mockRounds } from '@/lib/mockData';
 import { ArrowLeftOutlined, CheckCircleFilled, UserOutlined, WalletOutlined, LockOutlined } from '@ant-design/icons';
-import { Avatar, Progress, Steps, Card } from 'antd';
+import { Avatar, Progress, Steps, Card, Spin } from 'antd';
 import { toast } from 'sonner';
 import { encryptDonation } from '@/lib/fhe';
 import { useDonationStore } from '@/stores/useDonationStore';
 import { CONTRACT_ADDRESSES } from '@/config';
+import type { Project, Round } from '@/types';
 
-// FHEQuadraticFunding ABI (only donate function)
+// ABIs
 const QUADRATIC_FUNDING_ABI = [
   {
     name: 'donate',
+    type: 'function',
+    stateMutability: 'nonpayable',
+    inputs: [
+      { name: 'roundId', type: 'uint256' },
+      { name: 'projectId', type: 'uint256' },
+      { name: 'encryptedAmountHandle', type: 'bytes32' },
+      { name: 'inputProof', type: 'bytes' }
+    ],
+    outputs: []
+  }
+] as const;
+
+const PROJECT_REGISTRY_ABI = [
+  {
+    name: 'projects',
+    type: 'function',
+    stateMutability: 'view',
+    inputs: [{ name: 'projectId', type: 'uint256' }],
+    outputs: [
+      { name: 'id', type: 'uint256' },
+      { name: 'owner', type: 'address' },
+      { name: 'metadataURI', type: 'string' },
+      { name: 'isActive', type: 'bool' },
+      { name: 'isVerified', type: 'bool' },
+      { name: 'credentialHash', type: 'bytes32' },
+      { name: 'createdAt', type: 'uint256' }
+    ]
+  }
+] as const;
+
+const DONATION_ROUND_ABI = [
+  {
+    name: 'rounds',
+    type: 'function',
+    stateMutability: 'view',
+    inputs: [{ name: 'roundId', type: 'uint256' }],
+    outputs: [
+      { name: 'id', type: 'uint256' },
+      { name: 'name', type: 'string' },
+      { name: 'startTime', type: 'uint256' },
+      { name: 'endTime', type: 'uint256' },
+      { name: 'matchingPool', type: 'uint256' },
+      { name: 'minDonation', type: 'uint256' },
+      { name: 'maxDonation', type: 'uint256' },
+      { name: 'isFinalized', type: 'bool' }
+    ]
+  },
+  {
+    name: 'processDonation',
     type: 'function',
     stateMutability: 'nonpayable',
     inputs: [
@@ -39,38 +88,94 @@ export default function ProjectDetail() {
   const [currentStep, setCurrentStep] = useState(0);
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>();
   const { setIsEncrypting } = useDonationStore();
+  const [project, setProject] = useState<Project | null>(null);
+  const [round, setRound] = useState<Round | null>(null);
 
   const { isLoading: isConfirming, isSuccess: isConfirmed, isError: isTxError, error: txError } = useWaitForTransactionReceipt({
     hash: txHash,
   });
 
-  // Find project (search all rounds)
-  let project = null;
-  let round = null;
-  for (const r of mockRounds) {
-    const projects = mockProjects[r.id] || [];
-    const found = projects.find((p) => p.id === Number(projectId));
-    if (found) {
-      project = found;
-      round = r;
-      break;
+  // Read project data
+  const { data: projectData, isLoading: isLoadingProject } = useReadContract({
+    address: CONTRACT_ADDRESSES.PROJECT_REGISTRY as `0x${string}`,
+    abi: PROJECT_REGISTRY_ABI,
+    functionName: 'projects',
+    args: projectId ? [BigInt(projectId)] : undefined,
+  });
+
+  // Parse project data
+  useEffect(() => {
+    if (projectData && !isLoadingProject) {
+      const [id, owner, metadataURI, isActive, isVerified] = projectData;
+
+      let name = `Project #${Number(id)}`;
+      let description = '';
+      let roundIdFromMetadata = 1; // Default to round 1
+
+      try {
+        if (metadataURI.startsWith('data:application/json;base64,')) {
+          const base64Data = metadataURI.replace('data:application/json;base64,', '');
+          const jsonStr = atob(base64Data);
+          const metadata = JSON.parse(jsonStr);
+          name = metadata.name || name;
+          description = metadata.description || '';
+        }
+      } catch (e) {
+        console.error('Error parsing project metadata:', e);
+      }
+
+      setProject({
+        id: Number(id),
+        roundId: roundIdFromMetadata,
+        name,
+        description,
+        metadataURI,
+        creator: owner,
+        verified: isVerified,
+        donorCount: 234, // Mock for now
+        totalDonations: '🔒 ***',
+        createdAt: Date.now(),
+      });
     }
-  }
+  }, [projectData, isLoadingProject]);
 
-  if (!project || !round) {
-    return (
-      <Layout>
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">Project not found</p>
-        </div>
-      </Layout>
-    );
-  }
+  // Read round data (assuming round 1 for now)
+  const { data: roundData, isLoading: isLoadingRound } = useReadContract({
+    address: CONTRACT_ADDRESSES.DONATION_ROUND as `0x${string}`,
+    abi: DONATION_ROUND_ABI,
+    functionName: 'rounds',
+    args: [BigInt(1)], // TODO: Get actual roundId from project
+  });
 
-  const minDonation = parseFloat(round.minDonation);
-  const maxDonation = parseFloat(round.maxDonation);
-  const amountNum = parseFloat(amount) || 0;
-  const isValidAmount = amountNum >= minDonation && amountNum <= maxDonation;
+  // Parse round data
+  useEffect(() => {
+    if (roundData && !isLoadingRound) {
+      const [id, name, startTime, endTime, matchingPool, minDonation, maxDonation, isFinalized] = roundData;
+
+      const now = Math.floor(Date.now() / 1000);
+      let status: 'active' | 'upcoming' | 'finalized' = 'upcoming';
+      if (isFinalized) {
+        status = 'finalized';
+      } else if (now >= Number(startTime) && now <= Number(endTime)) {
+        status = 'active';
+      } else if (now > Number(endTime)) {
+        status = 'finalized';
+      }
+
+      setRound({
+        id: Number(id),
+        name,
+        description: '',
+        startDate: new Date(Number(startTime) * 1000).toISOString(),
+        endDate: new Date(Number(endTime) * 1000).toISOString(),
+        matchingPool: Number(matchingPool) / 1e9,
+        totalDonations: 0,
+        totalDonors: 0,
+        projectCount: 0,
+        status
+      });
+    }
+  }, [roundData, isLoadingRound]);
 
   // Monitor transaction confirmation or failure
   useEffect(() => {
@@ -100,6 +205,34 @@ export default function ProjectDetail() {
     }
   }, [isTxError, txError, currentStep]);
 
+  // Handle loading states
+  if (isLoadingProject || isLoadingRound) {
+    return (
+      <Layout>
+        <div className="text-center py-12">
+          <Spin size="large" />
+          <p className="text-muted-foreground mt-4">Loading project...</p>
+        </div>
+      </Layout>
+    );
+  }
+
+  // Handle error states
+  if (!project || !round) {
+    return (
+      <Layout>
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">Project not found</p>
+        </div>
+      </Layout>
+    );
+  }
+
+  const minDonation = Number(roundData![5]) / 1e9; // Convert from Gwei
+  const maxDonation = Number(roundData![6]) / 1e9;
+  const amountNum = parseFloat(amount) || 0;
+  const isValidAmount = amountNum >= minDonation && amountNum <= maxDonation;
+
   const handleDonate = async () => {
     if (!isValidAmount) {
       toast.error('Invalid amount', {
@@ -127,9 +260,11 @@ export default function ProjectDetail() {
       // Convert ETH to Gwei (1 ETH = 1e9 Gwei)
       // euint32 max: 4,294,967,295 Gwei = ~4.29 ETH
       const amountGwei = BigInt(Math.floor(amountNum * 1e9));
+      // IMPORTANT: Encrypt for DONATION_ROUND contract, not QUADRATIC_FUNDING
+      // because processDonation() is called on DonationRound contract
       const { encryptedAmount, proof } = await encryptDonation(
         amountGwei,
-        CONTRACT_ADDRESSES.QUADRATIC_FUNDING,
+        CONTRACT_ADDRESSES.DONATION_ROUND,
         userAddress
       );
       
@@ -140,10 +275,12 @@ export default function ProjectDetail() {
       setCurrentStep(2);
       toast.loading('📤 Submitting to blockchain...', { id: 'submitting' });
 
+      // IMPORTANT: Call processDonation directly on FHEDonationRound
+      // This avoids msg.sender mismatch when going through FHEQuadraticFunding
       const hash = await writeContractAsync({
-        address: CONTRACT_ADDRESSES.QUADRATIC_FUNDING as `0x${string}`,
-        abi: QUADRATIC_FUNDING_ABI,
-        functionName: 'donate',
+        address: CONTRACT_ADDRESSES.DONATION_ROUND as `0x${string}`,
+        abi: DONATION_ROUND_ABI,
+        functionName: 'processDonation',
         args: [
           BigInt(round.id),           // roundId
           BigInt(projectId!),         // projectId
@@ -253,9 +390,13 @@ export default function ProjectDetail() {
           <div className="card-shadow rounded-lg border border-border bg-card p-6">
             <h2 className="text-xl font-semibold text-foreground mb-4">Details</h2>
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Metadata URI</span>
-                <span className="text-foreground font-mono">{project.metadataURI}</span>
+              <div className="flex justify-between items-start">
+                <span className="text-muted-foreground">Metadata</span>
+                <span className="text-foreground font-mono text-xs break-all text-right max-w-[300px]">
+                  {project.metadataURI.startsWith('data:')
+                    ? 'On-chain (Base64)'
+                    : project.metadataURI}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Round</span>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card, Avatar } from 'antd';
-import { CheckCircleFilled, UserOutlined, WalletOutlined } from '@ant-design/icons';
+import { CheckCircleFilled, UserOutlined, WalletOutlined, ProjectOutlined } from '@ant-design/icons';
 import { Project } from '@/types';
 import { Button } from './ui/button';
 
@@ -77,6 +77,3 @@ export function ProjectCard({ project }: ProjectCardProps) {
     </Card>
   );
 }
-
-// Fix import
-import { ProjectOutlined } from '@ant-design/icons';

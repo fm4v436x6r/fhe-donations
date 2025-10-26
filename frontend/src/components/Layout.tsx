@@ -24,7 +24,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                 <LockOutlined className="text-base" />
               </div>
-              <span className="hidden sm:inline">FHE Funding</span>
+              <span className="hidden sm:inline">SealedGood</span>
             </Link>
 
             {/* Desktop Navigation */}

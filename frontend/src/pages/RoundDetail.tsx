@@ -7,8 +7,9 @@ import { EncryptedBadge } from '@/components/EncryptedBadge';
 import { ArrowLeftOutlined, ClockCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button } from '@/components/ui/button';
 import { Spin } from 'antd';
-import { useReadContract } from 'wagmi';
+import { useReadContract, useReadContracts } from 'wagmi';
 import { CONTRACT_ADDRESSES } from '@/config';
+import { useAllProjects } from '@/hooks/useContracts';
 import type { Round, Project } from '@/types';
 
 const DONATION_ROUND_ABI = [
@@ -30,10 +31,32 @@ const DONATION_ROUND_ABI = [
   }
 ] as const;
 
+const PROJECT_REGISTRY_ABI = [
+  {
+    name: 'projects',
+    type: 'function',
+    stateMutability: 'view',
+    inputs: [{ name: 'projectId', type: 'uint256' }],
+    outputs: [
+      { name: 'id', type: 'uint256' },
+      { name: 'owner', type: 'address' },
+      { name: 'metadataURI', type: 'string' },
+      { name: 'isActive', type: 'bool' },
+      { name: 'isVerified', type: 'bool' },
+      { name: 'credentialHash', type: 'bytes32' },
+      { name: 'createdAt', type: 'uint256' }
+    ]
+  }
+] as const;
+
 export default function RoundDetail() {
   const { roundId } = useParams<{ roundId: string }>();
   const navigate = useNavigate();
   const [round, setRound] = useState<Round | null>(null);
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  // Get all project IDs
+  const { projectIds, isLoading: isLoadingProjectIds } = useAllProjects();
 
   // Read round data from contract
   const { data: roundData, isLoading, error } = useReadContract({
@@ -41,6 +64,16 @@ export default function RoundDetail() {
     abi: DONATION_ROUND_ABI,
     functionName: 'rounds',
     args: roundId ? [BigInt(roundId)] : undefined,
+  });
+
+  // Read all projects data using multicall
+  const { data: projectsData, isLoading: isLoadingProjects } = useReadContracts({
+    contracts: projectIds.map(id => ({
+      address: CONTRACT_ADDRESSES.PROJECT_REGISTRY as `0x${string}`,
+      abi: PROJECT_REGISTRY_ABI,
+      functionName: 'projects',
+      args: [id],
+    })),
   });
 
   useEffect(() => {
@@ -73,6 +106,50 @@ export default function RoundDetail() {
     }
   }, [roundData, isLoading]);
 
+  // Parse projects data
+  useEffect(() => {
+    if (projectsData && !isLoadingProjects) {
+      const parsedProjects: Project[] = [];
+
+      projectsData.forEach((result, index) => {
+        if (result.status === 'success' && result.result) {
+          const [id, owner, metadataURI, isActive, isVerified] = result.result;
+
+          // Parse metadata from data URI
+          let name = `Project #${Number(id)}`;
+          let description = '';
+
+          try {
+            if (metadataURI.startsWith('data:application/json;base64,')) {
+              const base64Data = metadataURI.replace('data:application/json;base64,', '');
+              const jsonStr = atob(base64Data);
+              const metadata = JSON.parse(jsonStr);
+              name = metadata.name || name;
+              description = metadata.description || '';
+            }
+          } catch (e) {
+            console.error('Error parsing project metadata:', e);
+          }
+
+          parsedProjects.push({
+            id: Number(id),
+            roundId: roundId ? Number(roundId) : 0,
+            name,
+            description,
+            metadataURI,
+            creator: owner,
+            verified: isVerified,
+            donorCount: 0,
+            totalDonations: '0',
+            createdAt: Date.now(),
+          });
+        }
+      });
+
+      setProjects(parsedProjects);
+    }
+  }, [projectsData, isLoadingProjects, roundId]);
+
   if (isLoading) {
     return (
       <Layout>
@@ -99,9 +176,6 @@ export default function RoundDetail() {
 
   const endDate = new Date(round.endDate);
   const daysLeft = Math.ceil((endDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
-
-  // For now, projects list is empty until we implement project creation
-  const projects: Project[] = [];
 
   return (
     <Layout>
