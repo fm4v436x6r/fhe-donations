@@ -4,7 +4,7 @@ Privacy-Preserving Quadratic Funding Platform powered by Zama's Fully Homomorphi
 
 ## 📹 Demo Video
 
-https://github.com/user-attachments/assets/demo-test-vedio.mp4
+[Watch Demo: FHE Encryption Workflow](./demo-test-vedio.mp4)
 
 > **Note**: This demo showcases the **FHE encryption workflow** for private donations. The video demonstrates how donation amounts are encrypted client-side using Zama's FHE technology before being submitted on-chain, ensuring complete privacy throughout the donation process.
 
