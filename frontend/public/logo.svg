@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#0052FF"/>
+
+  <!-- Shield shape -->
+  <path d="M256 96C256 96 176 120 176 168V280C176 344 256 392 256 392C256 392 336 344 336 280V168C336 120 256 96 256 96Z" fill="white"/>
+
+  <!-- Lock body -->
+  <rect x="226" y="240" width="60" height="64" rx="8" fill="#0052FF"/>
+
+  <!-- Lock shackle -->
+  <path d="M236 240V220C236 208.954 244.954 200 256 200C267.046 200 276 208.954 276 220V240" stroke="#0052FF" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- Keyhole -->
+  <circle cx="256" cy="264" r="8" fill="white"/>
+  <rect x="252" y="264" width="8" height="20" rx="2" fill="white"/>
+
+  <!-- Checkmark inside shield (indicating "Good") -->
+  <path d="M213 265L233 285L299 219" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

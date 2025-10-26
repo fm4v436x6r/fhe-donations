@@ -1,0 +1,42 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#0052FF"/>
+
+  <!-- Simplified shield with lock -->
+  <path d="M16 6C16 6 11 7.5 11 10.5V17.5C11 21.5 16 24.5 16 24.5C16 24.5 21 21.5 21 17.5V10.5C21 7.5 16 6 16 6Z" fill="white"/>
+
+  <!-- Lock -->
+  <rect x="14.5" y="15" width="3" height="4" rx="0.5" fill="#0052FF"/>
+  <path d="M14.5 15V13.5C14.5 12.6716 15.1716 12 16 12C16.8284 12 17.5 12.6716 17.5 13.5V15" stroke="#0052FF" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- Checkmark -->
+  <path d="M13 17L14.5 18.5L19 14" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<system-reminder>
+Background Bash 8025ac (command: cd /Users/songsu/Desktop/zama/fhe-computation-market/frontend && yarn dev) (status: running) Has new output available. You can check its output using the BashOutput tool.
+</system-reminder>
+
+<system-reminder>
+Background Bash 1ec739 (command: npm run dev) (status: running) Has new output available. You can check its output using the BashOutput tool.
+</system-reminder>
+
+<system-reminder>
+Background Bash f071a4 (command: cd /Users/songsu/Desktop/zama/FHE-CustomerDB/frontend && yarn dev) (status: running) Has new output available. You can check its output using the BashOutput tool.
+</system-reminder>
+
+<system-reminder>
+Background Bash 2a7704 (command: yarn dev) (status: running) Has new output available. You can check its output using the BashOutput tool.
+</system-reminder>
+
+<system-reminder>
+Background Bash bd9c5b (command: cd /Users/songsu/Desktop/zama/fhe-donations/frontend && yarn dev) (status: running) Has new output available. You can check its output using the BashOutput tool.
+</system-reminder>
+
+<system-reminder>
+Background Bash aebfaa (command: yarn dev) (status: running) Has new output available. You can check its output using the BashOutput tool.
+</system-reminder>
+
+<system-reminder>
+Background Bash 8ff438 (command: cd /Users/songsu/Desktop/zama/fhe-donations/frontend && yarn dev) (status: running) Has new output available. You can check its output using the BashOutput tool.
+</system-reminder>
