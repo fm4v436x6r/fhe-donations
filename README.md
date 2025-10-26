@@ -1,10 +1,10 @@
-# Shield Fund
+# SealedGood
 
 Privacy-Preserving Quadratic Funding Platform powered by Zama's Fully Homomorphic Encryption (FHE)
 
 ## Overview
 
-Shield Fund is a decentralized quadratic funding platform that enables completely private donations while maintaining transparent fund allocation. Using Zama's FHE technology, donation amounts remain encrypted throughout the entire lifecycle - from contribution to distribution.
+SealedGood is a decentralized quadratic funding platform that enables completely private donations while maintaining transparent fund allocation. Using Zama's FHE technology, donation amounts remain encrypted throughout the entire lifecycle - from contribution to distribution.
 
 ### Key Features
 
@@ -171,6 +171,41 @@ const { handles, inputProof } = await input.encrypt();
 - Secure key management via MetaMask
 - Type-safe contract interactions
 
+## Understanding Rounds and Projects
+
+### What are Funding Rounds?
+
+A **Funding Round** is a time-limited fundraising campaign with a dedicated matching pool. Think of it as a seasonal grant program:
+
+- **Time-bounded**: Each round has specific start and end dates
+- **Matching Pool**: Contains funds (e.g., 4 ETH) to be distributed among projects
+- **Multiple Projects**: Many projects can participate in the same round
+- **Quadratic Matching**: The matching pool is distributed using the quadratic funding formula
+
+### What are Projects?
+
+A **Project** is a public good initiative seeking funding. Projects:
+
+- **Register Once**: Created by project owners with metadata (name, description)
+- **Join Rounds**: Automatically participate when they receive their first donation in a round
+- **Receive Donations**: Accept encrypted contributions from donors
+- **Get Matched**: Receive additional funds from the matching pool based on community support
+
+### Relationship Between Rounds and Projects
+
+**One-to-Many Relationship**:
+- One round can have many projects (e.g., "Spring 2025" round with 10 projects)
+- One project can participate in multiple rounds over time
+- Each donation specifies both the round and the project
+
+**Example Flow**:
+1. Community creates "Q1 2025" round with 10 ETH matching pool
+2. Project "OpenZeppelin SDK" registers on the platform
+3. Alice donates 0.1 ETH to OpenZeppelin in Q1 2025 round
+4. Bob donates 0.05 ETH to OpenZeppelin in Q1 2025 round
+5. OpenZeppelin now participates in Q1 2025 round with 2 donors
+6. At round end, OpenZeppelin receives matching funds based on donor count and amounts
+
 ## Quadratic Funding Explained
 
 Quadratic Funding (QF) is a democratic way to allocate matching funds:
@@ -185,6 +220,15 @@ Quadratic Funding (QF) is a democratic way to allocate matching funds:
 - Project B: 10 donors give $10 each → Large matching
 
 This prioritizes **community support** over **whale donations**.
+
+### Privacy-Preserving Quadratic Funding
+
+In SealedGood, all quadratic funding calculations are performed on **encrypted donation amounts**:
+
+1. Individual donations remain private throughout the calculation
+2. Only the final matching distribution is revealed
+3. Prevents donation amount manipulation and gaming
+4. Ensures fair distribution based on true community support
 
 ## Deployment
 
@@ -236,4 +280,4 @@ MIT License
 
 **Built with privacy. Powered by mathematics. Secured by encryption.**
 
-🔒 Shield Fund - Making charitable giving truly confidential
+🔒 SealedGood - Making charitable giving truly confidential

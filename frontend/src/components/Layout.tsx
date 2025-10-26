@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { WalletButton } from './WalletButton';
-import { LockOutlined, HomeOutlined, AppstoreOutlined, PlusOutlined, HistoryOutlined, SettingOutlined } from '@ant-design/icons';
+import { LockOutlined, HomeOutlined, AppstoreOutlined, PlusOutlined, HistoryOutlined, BookOutlined, SettingOutlined } from '@ant-design/icons';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -10,6 +10,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { path: '/rounds', label: 'Rounds', icon: <AppstoreOutlined /> },
     { path: '/create-round', label: 'Create Round', icon: <PlusOutlined /> },
     { path: '/my-donations', label: 'My Donations', icon: <HistoryOutlined /> },
+    { path: '/documentation', label: 'Docs', icon: <BookOutlined /> },
     { path: '/admin', label: 'Admin', icon: <SettingOutlined /> },
   ];
 
