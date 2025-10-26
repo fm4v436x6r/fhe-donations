@@ -8,6 +8,7 @@ declare global {
       SepoliaConfig: Record<string, unknown>;
     };
     ethereum?: any;
+    okxwallet?: any;
   }
 }
 
@@ -72,8 +73,21 @@ export async function initFHE(provider?: any): Promise<any> {
     throw new Error('FHE SDK requires browser environment');
   }
 
-  // Get Ethereum provider
-  const ethereumProvider = provider || window.ethereum;
+  // Get Ethereum provider - support multiple wallet types
+  let ethereumProvider = provider;
+
+  if (!ethereumProvider) {
+    // Try OKX Wallet first (if user has it)
+    if (window.okxwallet) {
+      ethereumProvider = window.okxwallet;
+      console.log('🦊 Detected OKX Wallet');
+    }
+    // Fallback to standard window.ethereum (MetaMask, etc.)
+    else if (window.ethereum) {
+      ethereumProvider = window.ethereum;
+      console.log('🦊 Detected Ethereum wallet');
+    }
+  }
 
   if (!ethereumProvider) {
     throw new Error('Ethereum provider not found. Please connect your wallet first.');
