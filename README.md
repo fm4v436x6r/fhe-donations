@@ -2,6 +2,12 @@
 
 Privacy-Preserving Quadratic Funding Platform powered by Zama's Fully Homomorphic Encryption (FHE)
 
+## 📹 Demo Video
+
+https://github.com/user-attachments/assets/demo-test-vedio.mp4
+
+> **Note**: This demo showcases the **FHE encryption workflow** for private donations. The video demonstrates how donation amounts are encrypted client-side using Zama's FHE technology before being submitted on-chain, ensuring complete privacy throughout the donation process.
+
 ## Overview
 
 SealedGood is a decentralized quadratic funding platform that enables completely private donations while maintaining transparent fund allocation. Using Zama's FHE technology, donation amounts remain encrypted throughout the entire lifecycle - from contribution to distribution.
