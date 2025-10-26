@@ -15,7 +15,6 @@ import ProjectDetail from "./pages/ProjectDetail";
 import MyDonations from "./pages/MyDonations";
 import CreateProject from "./pages/CreateProject";
 import Documentation from "./pages/Documentation";
-import Admin from "./pages/Admin";
 import Debug from "./pages/Debug";
 import NotFound from "./pages/NotFound";
 import { ConfigProvider, theme } from 'antd';
@@ -50,7 +49,6 @@ const App = () => (
                 <Route path="/my-donations" element={<MyDonations />} />
                 <Route path="/create-project" element={<CreateProject />} />
                 <Route path="/documentation" element={<Documentation />} />
-                <Route path="/admin" element={<Admin />} />
                 <Route path="/debug" element={<Debug />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
