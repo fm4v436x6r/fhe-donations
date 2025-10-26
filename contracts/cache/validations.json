@@ -1,0 +1,2283 @@
+{
+  "version": "3.4",
+  "log": [
+    {
+      "@fhevm/solidity/config/ZamaConfig.sol:EthereumConfig": {
+        "src": "@fhevm/solidity/config/ZamaConfig.sol:72",
+        "version": {
+          "withMetadata": "fdad97c44e8f29036723cd12e067ccdfb52682d81143de44406ad95bab3ee603",
+          "withoutMetadata": "6d0d62d3b57548b0e5d88f6dd858ac78dbffafcc6516bcc75766c21573924874",
+          "linkedWithoutMetadata": "6d0d62d3b57548b0e5d88f6dd858ac78dbffafcc6516bcc75766c21573924874"
+        },
+        "inherit": [],
+        "libraries": [
+          "@fhevm/solidity/lib/FHE.sol:FHE",
+          "@fhevm/solidity/config/ZamaConfig.sol:ZamaConfig"
+        ],
+        "methods": [
+          "()",
+          "protocolId()"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "EthereumConfig",
+            "src": "@fhevm/solidity/config/ZamaConfig.sol:73"
+          }
+        ],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/config/ZamaConfig.sol:SepoliaConfig": {
+        "src": "@fhevm/solidity/config/ZamaConfig.sol:55",
+        "version": {
+          "withMetadata": "1778d268f2147101c7433f0d458838149074b2480175c98161bdd69e4507e6f8",
+          "withoutMetadata": "b62cd7f764b0d6733d2a62987160100d4422d05fa6d50d9661dd2b982777cef5",
+          "linkedWithoutMetadata": "b62cd7f764b0d6733d2a62987160100d4422d05fa6d50d9661dd2b982777cef5"
+        },
+        "inherit": [],
+        "libraries": [
+          "@fhevm/solidity/lib/FHE.sol:FHE",
+          "@fhevm/solidity/config/ZamaConfig.sol:ZamaConfig"
+        ],
+        "methods": [
+          "()",
+          "protocolId()"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "SepoliaConfig",
+            "src": "@fhevm/solidity/config/ZamaConfig.sol:56"
+          }
+        ],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/config/ZamaConfig.sol:ZamaConfig": {
+        "src": "@fhevm/solidity/config/ZamaConfig.sol:14",
+        "version": {
+          "withMetadata": "fc0e003af3eb7dfd46df44d68ba4179f876e09e40c3ad4f16561f30cbb65d653",
+          "withoutMetadata": "0114521916e3544bb6ece02cba9b45b3a2356335749f43703e76b026246e73e7",
+          "linkedWithoutMetadata": "0114521916e3544bb6ece02cba9b45b3a2356335749f43703e76b026246e73e7"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/lib/FHE.sol:FHE": {
+        "src": "@fhevm/solidity/lib/FHE.sol:38",
+        "version": {
+          "withMetadata": "e0889c3e588254da2b0e5ffe075706d51e2d762d17ae22511ac6d60b2c7f48d5",
+          "withoutMetadata": "0114521916e3544bb6ece02cba9b45b3a2356335749f43703e76b026246e73e7",
+          "linkedWithoutMetadata": "0114521916e3544bb6ece02cba9b45b3a2356335749f43703e76b026246e73e7"
+        },
+        "inherit": [],
+        "libraries": [
+          "@fhevm/solidity/lib/Impl.sol:Impl"
+        ],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/lib/FHE.sol:IDecryptionOracle": {
+        "src": "@fhevm/solidity/lib/FHE.sol:25",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "requestDecryption(uint256,bytes32[],bytes4)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/lib/FHE.sol:IKMSVerifier": {
+        "src": "@fhevm/solidity/lib/FHE.sol:13",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "verifyDecryptionEIP712KMSSignatures(bytes32[],bytes,bytes)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/lib/Impl.sol:IACL": {
+        "src": "@fhevm/solidity/lib/Impl.sol:292",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "allowTransient(bytes32,address)",
+          "allow(bytes32,address)",
+          "cleanTransientStorage()",
+          "isAllowed(bytes32,address)",
+          "allowForDecryption(bytes32[])",
+          "isAllowedForDecryption(bytes32)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/lib/Impl.sol:IFHEVMExecutor": {
+        "src": "@fhevm/solidity/lib/Impl.sol:31",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "fheAdd(bytes32,bytes32,bytes1)",
+          "fheSub(bytes32,bytes32,bytes1)",
+          "fheMul(bytes32,bytes32,bytes1)",
+          "fheDiv(bytes32,bytes32,bytes1)",
+          "fheRem(bytes32,bytes32,bytes1)",
+          "fheBitAnd(bytes32,bytes32,bytes1)",
+          "fheBitOr(bytes32,bytes32,bytes1)",
+          "fheBitXor(bytes32,bytes32,bytes1)",
+          "fheShl(bytes32,bytes32,bytes1)",
+          "fheShr(bytes32,bytes32,bytes1)",
+          "fheRotl(bytes32,bytes32,bytes1)",
+          "fheRotr(bytes32,bytes32,bytes1)",
+          "fheEq(bytes32,bytes32,bytes1)",
+          "fheNe(bytes32,bytes32,bytes1)",
+          "fheGe(bytes32,bytes32,bytes1)",
+          "fheGt(bytes32,bytes32,bytes1)",
+          "fheLe(bytes32,bytes32,bytes1)",
+          "fheLt(bytes32,bytes32,bytes1)",
+          "fheMin(bytes32,bytes32,bytes1)",
+          "fheMax(bytes32,bytes32,bytes1)",
+          "fheNeg(bytes32)",
+          "fheNot(bytes32)",
+          "verifyCiphertext(bytes32,address,bytes,uint8)",
+          "cast(bytes32,uint8)",
+          "trivialEncrypt(uint256,uint8)",
+          "fheIfThenElse(bytes32,bytes32,bytes32)",
+          "fheRand(uint8)",
+          "fheRandBounded(uint256,uint8)",
+          "getInputVerifierAddress()"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/lib/Impl.sol:IInputVerifier": {
+        "src": "@fhevm/solidity/lib/Impl.sol:344",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "cleanTransientStorage()"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@fhevm/solidity/lib/Impl.sol:Impl": {
+        "src": "@fhevm/solidity/lib/Impl.sol:356",
+        "version": {
+          "withMetadata": "a254d807b212111058d66d110581e685ff5527994f6ef12a218ce47b3eae12e9",
+          "withoutMetadata": "0114521916e3544bb6ece02cba9b45b3a2356335749f43703e76b026246e73e7",
+          "linkedWithoutMetadata": "0114521916e3544bb6ece02cba9b45b3a2356335749f43703e76b026246e73e7"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/access/Ownable.sol:Ownable": {
+        "src": "@openzeppelin/contracts/access/Ownable.sol:20",
+        "inherit": [
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "owner()",
+          "renounceOwnership()",
+          "transferOwnership(address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Ownable",
+            "src": "@openzeppelin/contracts/access/Ownable.sol:38"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/interfaces/IERC1363.sol:IERC1363": {
+        "src": "@openzeppelin/contracts/interfaces/IERC1363.sol:16",
+        "inherit": [
+          "@openzeppelin/contracts/utils/introspection/IERC165.sol:IERC165",
+          "@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20"
+        ],
+        "libraries": [],
+        "methods": [
+          "transferAndCall(address,uint256)",
+          "transferAndCall(address,uint256,bytes)",
+          "transferFromAndCall(address,address,uint256)",
+          "transferFromAndCall(address,address,uint256,bytes)",
+          "approveAndCall(address,uint256)",
+          "approveAndCall(address,uint256,bytes)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/interfaces/draft-IERC6093.sol:IERC1155Errors": {
+        "src": "@openzeppelin/contracts/interfaces/draft-IERC6093.sol:113",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/interfaces/draft-IERC6093.sol:IERC20Errors": {
+        "src": "@openzeppelin/contracts/interfaces/draft-IERC6093.sol:9",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/interfaces/draft-IERC6093.sol:IERC721Errors": {
+        "src": "@openzeppelin/contracts/interfaces/draft-IERC6093.sol:55",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/token/ERC20/ERC20.sol:ERC20": {
+        "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:29",
+        "inherit": [
+          "@openzeppelin/contracts/interfaces/draft-IERC6093.sol:IERC20Errors",
+          "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol:IERC20Metadata",
+          "@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "name()",
+          "symbol()",
+          "decimals()",
+          "totalSupply()",
+          "balanceOf(address)",
+          "transfer(address,uint256)",
+          "allowance(address,address)",
+          "approve(address,uint256)",
+          "transferFrom(address,address,uint256)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "ERC20",
+            "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:44"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_balances",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_mapping(t_address,t_uint256)",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:30"
+            },
+            {
+              "label": "_allowances",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:32"
+            },
+            {
+              "label": "_totalSupply",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_uint256",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:34"
+            },
+            {
+              "label": "_name",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_string_storage",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:36"
+            },
+            {
+              "label": "_symbol",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_string_storage",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:37"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+              "label": "mapping(address => mapping(address => uint256))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_uint256)": {
+              "label": "mapping(address => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_string_storage": {
+              "label": "string",
+              "numberOfBytes": "32"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20": {
+        "src": "@openzeppelin/contracts/token/ERC20/IERC20.sol:9",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "totalSupply()",
+          "balanceOf(address)",
+          "transfer(address,uint256)",
+          "allowance(address,address)",
+          "approve(address,uint256)",
+          "transferFrom(address,address,uint256)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol:IERC20Metadata": {
+        "src": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol:11",
+        "inherit": [
+          "@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20"
+        ],
+        "libraries": [],
+        "methods": [
+          "name()",
+          "symbol()",
+          "decimals()"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol:SafeERC20": {
+        "src": "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol:18",
+        "version": {
+          "withMetadata": "d0ea49f8489d44035ac658dcc75973f0fc9023dd30dc848ed72035709e40e6f1",
+          "withoutMetadata": "0114521916e3544bb6ece02cba9b45b3a2356335749f43703e76b026246e73e7",
+          "linkedWithoutMetadata": "0114521916e3544bb6ece02cba9b45b3a2356335749f43703e76b026246e73e7"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/utils/Context.sol:Context": {
+        "src": "@openzeppelin/contracts/utils/Context.sol:16",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/utils/Pausable.sol:Pausable": {
+        "src": "@openzeppelin/contracts/utils/Pausable.sol:17",
+        "inherit": [
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "paused()"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [
+            {
+              "label": "_paused",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_bool",
+              "contract": "Pausable",
+              "src": "@openzeppelin/contracts/utils/Pausable.sol:18"
+            }
+          ],
+          "types": {
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/utils/ReentrancyGuard.sol:ReentrancyGuard": {
+        "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:25",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "ReentrancyGuard",
+            "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:47"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_status",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_uint256",
+              "contract": "ReentrancyGuard",
+              "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:40"
+            }
+          ],
+          "types": {
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "@openzeppelin/contracts/utils/introspection/IERC165.sol:IERC165": {
+        "src": "@openzeppelin/contracts/utils/introspection/IERC165.sol:15",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "supportsInterface(bytes4)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "src/FHEDonationBase.sol:FHEDonationBase": {
+        "src": "src/FHEDonationBase.sol:15",
+        "inherit": [
+          "@fhevm/solidity/config/ZamaConfig.sol:SepoliaConfig",
+          "@openzeppelin/contracts/utils/Pausable.sol:Pausable",
+          "@openzeppelin/contracts/utils/ReentrancyGuard.sol:ReentrancyGuard",
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [
+          "@fhevm/solidity/lib/FHE.sol:FHE"
+        ],
+        "methods": [
+          "hasReencryptionPermission(address,bytes32)",
+          "pause()",
+          "unpause()"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "FHEDonationBase",
+            "src": "src/FHEDonationBase.sol:28"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "_status",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "ReentrancyGuard",
+              "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:40"
+            },
+            {
+              "label": "_paused",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_bool",
+              "contract": "Pausable",
+              "src": "@openzeppelin/contracts/utils/Pausable.sol:18"
+            },
+            {
+              "label": "reencryptionPermissions",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_mapping(t_bytes32,t_bool))",
+              "contract": "FHEDonationBase",
+              "src": "src/FHEDonationBase.sol:22"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_mapping(t_bytes32,t_bool))": {
+              "label": "mapping(address => mapping(bytes32 => bool))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "src/FHEDonationRound.sol:FHEDonationRound": {
+        "src": "src/FHEDonationRound.sol:13",
+        "version": {
+          "withMetadata": "c87f9cce39cb9834248346cc6a48e24bda8782ccb744622c8ccf940260a083a7",
+          "withoutMetadata": "34ad2a08f422f690e773a8adab29b9fb5f4cb53c7c298988c5c6056a6ab098a1",
+          "linkedWithoutMetadata": "34ad2a08f422f690e773a8adab29b9fb5f4cb53c7c298988c5c6056a6ab098a1"
+        },
+        "inherit": [
+          "src/FHEDonationBase.sol:FHEDonationBase",
+          "@fhevm/solidity/config/ZamaConfig.sol:SepoliaConfig",
+          "@openzeppelin/contracts/utils/Pausable.sol:Pausable",
+          "@openzeppelin/contracts/utils/ReentrancyGuard.sol:ReentrancyGuard",
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [
+          "@fhevm/solidity/lib/FHE.sol:FHE"
+        ],
+        "methods": [
+          "()",
+          "createRound(string,uint256,uint256,bytes32,bytes,uint256,uint256)",
+          "addToMatchingPool(uint256,bytes32,bytes)",
+          "processDonation(uint256,uint256,bytes32,bytes)",
+          "processDonationBatch(uint256,uint256[],bytes[],bytes[])",
+          "calculateMatching(uint256)",
+          "finalizeRound(uint256)",
+          "getRoundInfo(uint256)",
+          "getEncryptedDonation(uint256,uint256,address)",
+          "getEncryptedProjectTotal(uint256,uint256)",
+          "getEncryptedMatchingAmount(uint256,uint256)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "FHEDonationRound",
+            "src": "src/FHEDonationRound.sol:73"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "matchingCapPercentage",
+            "src": "src/FHEDonationRound.sol:45"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "minProjectsForMatching",
+            "src": "src/FHEDonationRound.sol:46"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "_status",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "ReentrancyGuard",
+              "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:40"
+            },
+            {
+              "label": "_paused",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_bool",
+              "contract": "Pausable",
+              "src": "@openzeppelin/contracts/utils/Pausable.sol:18"
+            },
+            {
+              "label": "reencryptionPermissions",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_mapping(t_bytes32,t_bool))",
+              "contract": "FHEDonationBase",
+              "src": "src/FHEDonationBase.sol:22"
+            },
+            {
+              "label": "nextRoundId",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_uint256",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:36"
+            },
+            {
+              "label": "rounds",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_uint256,t_struct(Round)41745_storage)",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:37"
+            },
+            {
+              "label": "projectDonations",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(DonationData)41753_storage))",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:38"
+            },
+            {
+              "label": "donorContributions",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_mapping(t_uint256,t_mapping(t_address,t_mapping(t_uint256,t_userDefinedValueType(euint32)40714)))",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:39"
+            },
+            {
+              "label": "projectMatching",
+              "offset": 0,
+              "slot": "8",
+              "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_userDefinedValueType(euint32)40714))",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:40"
+            },
+            {
+              "label": "roundProjects",
+              "offset": 0,
+              "slot": "9",
+              "type": "t_mapping(t_uint256,t_array(t_uint256)dyn_storage)",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:41"
+            },
+            {
+              "label": "roundDonors",
+              "offset": 0,
+              "slot": "10",
+              "type": "t_mapping(t_uint256,t_array(t_address)dyn_storage)",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:42"
+            },
+            {
+              "label": "matchingCapPercentage",
+              "offset": 0,
+              "slot": "11",
+              "type": "t_uint256",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:45"
+            },
+            {
+              "label": "minProjectsForMatching",
+              "offset": 0,
+              "slot": "12",
+              "type": "t_uint256",
+              "contract": "FHEDonationRound",
+              "src": "src/FHEDonationRound.sol:46"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_array(t_address)dyn_storage": {
+              "label": "address[]",
+              "numberOfBytes": "32"
+            },
+            "t_array(t_uint256)dyn_storage": {
+              "label": "uint256[]",
+              "numberOfBytes": "32"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_mapping(t_bytes32,t_bool))": {
+              "label": "mapping(address => mapping(bytes32 => bool))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_mapping(t_uint256,t_userDefinedValueType(euint32)40714))": {
+              "label": "mapping(address => mapping(uint256 => euint32))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_array(t_address)dyn_storage)": {
+              "label": "mapping(uint256 => address[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_array(t_uint256)dyn_storage)": {
+              "label": "mapping(uint256 => uint256[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_mapping(t_address,t_mapping(t_uint256,t_userDefinedValueType(euint32)40714)))": {
+              "label": "mapping(uint256 => mapping(address => mapping(uint256 => euint32)))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(DonationData)41753_storage))": {
+              "label": "mapping(uint256 => mapping(uint256 => struct FHEDonationRound.DonationData))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_mapping(t_uint256,t_userDefinedValueType(euint32)40714))": {
+              "label": "mapping(uint256 => mapping(uint256 => euint32))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_struct(DonationData)41753_storage)": {
+              "label": "mapping(uint256 => struct FHEDonationRound.DonationData)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_struct(Round)41745_storage)": {
+              "label": "mapping(uint256 => struct FHEDonationRound.Round)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_userDefinedValueType(euint32)40714)": {
+              "label": "mapping(uint256 => euint32)",
+              "numberOfBytes": "32"
+            },
+            "t_string_storage": {
+              "label": "string",
+              "numberOfBytes": "32"
+            },
+            "t_struct(DonationData)41753_storage": {
+              "label": "struct FHEDonationRound.DonationData",
+              "members": [
+                {
+                  "label": "totalAmount",
+                  "type": "t_userDefinedValueType(euint32)40714",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "donorCount",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "hasMatching",
+                  "type": "t_bool",
+                  "offset": 0,
+                  "slot": "2"
+                }
+              ],
+              "numberOfBytes": "96"
+            },
+            "t_struct(Round)41745_storage": {
+              "label": "struct FHEDonationRound.Round",
+              "members": [
+                {
+                  "label": "id",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "name",
+                  "type": "t_string_storage",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "startTime",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "2"
+                },
+                {
+                  "label": "endTime",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "3"
+                },
+                {
+                  "label": "matchingPool",
+                  "type": "t_userDefinedValueType(euint32)40714",
+                  "offset": 0,
+                  "slot": "4"
+                },
+                {
+                  "label": "minDonation",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "5"
+                },
+                {
+                  "label": "maxDonation",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "6"
+                },
+                {
+                  "label": "isFinalized",
+                  "type": "t_bool",
+                  "offset": 0,
+                  "slot": "7"
+                },
+                {
+                  "label": "totalProjects",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "8"
+                },
+                {
+                  "label": "totalDonors",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "9"
+                }
+              ],
+              "numberOfBytes": "320"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            },
+            "t_userDefinedValueType(euint32)40714": {
+              "label": "euint32",
+              "numberOfBytes": "32",
+              "underlying": "t_bytes32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "src/FHEMatchingPool.sol:FHEMatchingPool": {
+        "src": "src/FHEMatchingPool.sol:15",
+        "version": {
+          "withMetadata": "cc76de3dcccce68a821f6e31893c550c62c15e0f9aa1e7a3e15c738b068d8ecc",
+          "withoutMetadata": "80510a7777640f1b3836a3ea21a7223a0d468999d5dd7daea547a27614c83cf2",
+          "linkedWithoutMetadata": "80510a7777640f1b3836a3ea21a7223a0d468999d5dd7daea547a27614c83cf2"
+        },
+        "inherit": [
+          "src/FHEDonationBase.sol:FHEDonationBase",
+          "@fhevm/solidity/config/ZamaConfig.sol:SepoliaConfig",
+          "@openzeppelin/contracts/utils/Pausable.sol:Pausable",
+          "@openzeppelin/contracts/utils/ReentrancyGuard.sol:ReentrancyGuard",
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [
+          "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol:SafeERC20",
+          "@fhevm/solidity/lib/FHE.sol:FHE"
+        ],
+        "methods": [
+          "(address)",
+          "contributeToPool(uint256,bytes32,bytes)",
+          "createStream(uint256,bytes32,bytes,uint256)",
+          "updateStream(uint256)",
+          "cancelStream(uint256)",
+          "createDistribution(uint256,uint256,bytes32,bytes,address)",
+          "claimMatching(uint256,uint256,uint32)",
+          "requestReveal(uint256,uint256)",
+          "getPoolStats(uint256)",
+          "getStreamInfo(uint256)",
+          "batchUpdateStreams(uint256[])",
+          "setDonationToken(address)",
+          "setRevealDelay(uint256)",
+          "setClaimDeadline(uint256)",
+          "emergencyWithdraw(address,uint256)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "FHEMatchingPool",
+            "src": "src/FHEMatchingPool.sol:81"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "revealDelay",
+            "src": "src/FHEMatchingPool.sol:61"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "claimDeadline",
+            "src": "src/FHEMatchingPool.sol:62"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "minStreamDuration",
+            "src": "src/FHEMatchingPool.sol:63"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "maxStreamDuration",
+            "src": "src/FHEMatchingPool.sol:64"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "_status",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "ReentrancyGuard",
+              "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:40"
+            },
+            {
+              "label": "_paused",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_bool",
+              "contract": "Pausable",
+              "src": "@openzeppelin/contracts/utils/Pausable.sol:18"
+            },
+            {
+              "label": "reencryptionPermissions",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_mapping(t_bytes32,t_bool))",
+              "contract": "FHEDonationBase",
+              "src": "src/FHEDonationBase.sol:22"
+            },
+            {
+              "label": "roundContributors",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_uint256,t_array(t_struct(Contributor)42869_storage)dyn_storage)",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:49"
+            },
+            {
+              "label": "contributorIndex",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_uint256,t_mapping(t_address,t_uint256))",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:50"
+            },
+            {
+              "label": "totalPoolSize",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_uint256,t_userDefinedValueType(euint32)40714)",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:51"
+            },
+            {
+              "label": "distributions",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Distribution)42883_storage))",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:52"
+            },
+            {
+              "label": "streams",
+              "offset": 0,
+              "slot": "8",
+              "type": "t_mapping(t_uint256,t_struct(Stream)42902_storage)",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:53"
+            },
+            {
+              "label": "nextStreamId",
+              "offset": 0,
+              "slot": "9",
+              "type": "t_uint256",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:54"
+            },
+            {
+              "label": "donationToken",
+              "offset": 0,
+              "slot": "10",
+              "type": "t_contract(IERC20)39988",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:57"
+            },
+            {
+              "label": "encryptedBalances",
+              "offset": 0,
+              "slot": "11",
+              "type": "t_mapping(t_address,t_userDefinedValueType(euint32)40714)",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:58"
+            },
+            {
+              "label": "revealDelay",
+              "offset": 0,
+              "slot": "12",
+              "type": "t_uint256",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:61"
+            },
+            {
+              "label": "claimDeadline",
+              "offset": 0,
+              "slot": "13",
+              "type": "t_uint256",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:62"
+            },
+            {
+              "label": "minStreamDuration",
+              "offset": 0,
+              "slot": "14",
+              "type": "t_uint256",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:63"
+            },
+            {
+              "label": "maxStreamDuration",
+              "offset": 0,
+              "slot": "15",
+              "type": "t_uint256",
+              "contract": "FHEMatchingPool",
+              "src": "src/FHEMatchingPool.sol:64"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_array(t_struct(Contributor)42869_storage)dyn_storage": {
+              "label": "struct FHEMatchingPool.Contributor[]",
+              "numberOfBytes": "32"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_contract(IERC20)39988": {
+              "label": "contract IERC20",
+              "numberOfBytes": "20"
+            },
+            "t_mapping(t_address,t_mapping(t_bytes32,t_bool))": {
+              "label": "mapping(address => mapping(bytes32 => bool))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_uint256)": {
+              "label": "mapping(address => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_userDefinedValueType(euint32)40714)": {
+              "label": "mapping(address => euint32)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_array(t_struct(Contributor)42869_storage)dyn_storage)": {
+              "label": "mapping(uint256 => struct FHEMatchingPool.Contributor[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_mapping(t_address,t_uint256))": {
+              "label": "mapping(uint256 => mapping(address => uint256))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(Distribution)42883_storage))": {
+              "label": "mapping(uint256 => mapping(uint256 => struct FHEMatchingPool.Distribution))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_struct(Distribution)42883_storage)": {
+              "label": "mapping(uint256 => struct FHEMatchingPool.Distribution)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_struct(Stream)42902_storage)": {
+              "label": "mapping(uint256 => struct FHEMatchingPool.Stream)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_userDefinedValueType(euint32)40714)": {
+              "label": "mapping(uint256 => euint32)",
+              "numberOfBytes": "32"
+            },
+            "t_struct(Contributor)42869_storage": {
+              "label": "struct FHEMatchingPool.Contributor",
+              "members": [
+                {
+                  "label": "addr",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "totalContribution",
+                  "type": "t_userDefinedValueType(euint32)40714",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "timestamp",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "2"
+                },
+                {
+                  "label": "isActive",
+                  "type": "t_bool",
+                  "offset": 0,
+                  "slot": "3"
+                }
+              ],
+              "numberOfBytes": "128"
+            },
+            "t_struct(Distribution)42883_storage": {
+              "label": "struct FHEMatchingPool.Distribution",
+              "members": [
+                {
+                  "label": "roundId",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "projectId",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "amount",
+                  "type": "t_userDefinedValueType(euint32)40714",
+                  "offset": 0,
+                  "slot": "2"
+                },
+                {
+                  "label": "recipient",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "3"
+                },
+                {
+                  "label": "claimed",
+                  "type": "t_bool",
+                  "offset": 20,
+                  "slot": "3"
+                },
+                {
+                  "label": "claimTime",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "4"
+                }
+              ],
+              "numberOfBytes": "160"
+            },
+            "t_struct(Stream)42902_storage": {
+              "label": "struct FHEMatchingPool.Stream",
+              "members": [
+                {
+                  "label": "sender",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "projectId",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "ratePerSecond",
+                  "type": "t_userDefinedValueType(euint32)40714",
+                  "offset": 0,
+                  "slot": "2"
+                },
+                {
+                  "label": "startTime",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "3"
+                },
+                {
+                  "label": "endTime",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "4"
+                },
+                {
+                  "label": "totalStreamed",
+                  "type": "t_userDefinedValueType(euint32)40714",
+                  "offset": 0,
+                  "slot": "5"
+                },
+                {
+                  "label": "lastUpdate",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "6"
+                },
+                {
+                  "label": "isActive",
+                  "type": "t_bool",
+                  "offset": 0,
+                  "slot": "7"
+                }
+              ],
+              "numberOfBytes": "256"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            },
+            "t_userDefinedValueType(euint32)40714": {
+              "label": "euint32",
+              "numberOfBytes": "32",
+              "underlying": "t_bytes32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "src/FHEProjectRegistry.sol:FHEProjectRegistry": {
+        "src": "src/FHEProjectRegistry.sol:12",
+        "version": {
+          "withMetadata": "5facce61c7afb5985c145c1a2d6154c1915e03488e0c0370654f8e42c04df15e",
+          "withoutMetadata": "e7b1dc7de51614a7d921f7f0b5f52cf53f6ace558605e3239bc4c2adb890c132",
+          "linkedWithoutMetadata": "e7b1dc7de51614a7d921f7f0b5f52cf53f6ace558605e3239bc4c2adb890c132"
+        },
+        "inherit": [
+          "src/FHEDonationBase.sol:FHEDonationBase",
+          "@fhevm/solidity/config/ZamaConfig.sol:SepoliaConfig",
+          "@openzeppelin/contracts/utils/Pausable.sol:Pausable",
+          "@openzeppelin/contracts/utils/ReentrancyGuard.sol:ReentrancyGuard",
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "()",
+          "registerProject(string)",
+          "updateProjectMetadata(uint256,string)",
+          "verifyProject(uint256,bool)",
+          "deactivateProject(uint256)",
+          "updateCredential(bytes32)",
+          "verifyCredential(address)",
+          "setCredentialVerifier(address)",
+          "setCredentialRequirement(bool)",
+          "setMinCredentialScore(uint256)",
+          "getProject(uint256)",
+          "getOwnerProjects(address)",
+          "getActiveProjectCount()",
+          "batchVerifyProjects(uint256[],bool[])"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "FHEProjectRegistry",
+            "src": "src/FHEProjectRegistry.sol:51"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "_status",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "ReentrancyGuard",
+              "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:40"
+            },
+            {
+              "label": "_paused",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_bool",
+              "contract": "Pausable",
+              "src": "@openzeppelin/contracts/utils/Pausable.sol:18"
+            },
+            {
+              "label": "reencryptionPermissions",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_mapping(t_bytes32,t_bool))",
+              "contract": "FHEDonationBase",
+              "src": "src/FHEDonationBase.sol:22"
+            },
+            {
+              "label": "nextProjectId",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_uint256",
+              "contract": "FHEProjectRegistry",
+              "src": "src/FHEProjectRegistry.sol:14"
+            },
+            {
+              "label": "projects",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_uint256,t_struct(Project)45515_storage)",
+              "contract": "FHEProjectRegistry",
+              "src": "src/FHEProjectRegistry.sol:15"
+            },
+            {
+              "label": "ownerProjects",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)",
+              "contract": "FHEProjectRegistry",
+              "src": "src/FHEProjectRegistry.sol:16"
+            },
+            {
+              "label": "userCredentials",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_mapping(t_address,t_bytes32)",
+              "contract": "FHEProjectRegistry",
+              "src": "src/FHEProjectRegistry.sol:17"
+            },
+            {
+              "label": "usedCredentials",
+              "offset": 0,
+              "slot": "8",
+              "type": "t_mapping(t_bytes32,t_bool)",
+              "contract": "FHEProjectRegistry",
+              "src": "src/FHEProjectRegistry.sol:18"
+            },
+            {
+              "label": "credentialVerifier",
+              "offset": 0,
+              "slot": "9",
+              "type": "t_address",
+              "contract": "FHEProjectRegistry",
+              "src": "src/FHEProjectRegistry.sol:21"
+            },
+            {
+              "label": "minCredentialScore",
+              "offset": 0,
+              "slot": "10",
+              "type": "t_uint256",
+              "contract": "FHEProjectRegistry",
+              "src": "src/FHEProjectRegistry.sol:22"
+            },
+            {
+              "label": "requireCredentials",
+              "offset": 0,
+              "slot": "11",
+              "type": "t_bool",
+              "contract": "FHEProjectRegistry",
+              "src": "src/FHEProjectRegistry.sol:23"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_array(t_uint256)dyn_storage": {
+              "label": "uint256[]",
+              "numberOfBytes": "32"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_array(t_uint256)dyn_storage)": {
+              "label": "mapping(address => uint256[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_bytes32)": {
+              "label": "mapping(address => bytes32)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_mapping(t_bytes32,t_bool))": {
+              "label": "mapping(address => mapping(bytes32 => bool))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_struct(Project)45515_storage)": {
+              "label": "mapping(uint256 => struct IFHEDonation.Project)",
+              "numberOfBytes": "32"
+            },
+            "t_string_storage": {
+              "label": "string",
+              "numberOfBytes": "32"
+            },
+            "t_struct(Project)45515_storage": {
+              "label": "struct IFHEDonation.Project",
+              "members": [
+                {
+                  "label": "id",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "owner",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "metadataURI",
+                  "type": "t_string_storage",
+                  "offset": 0,
+                  "slot": "2"
+                },
+                {
+                  "label": "isActive",
+                  "type": "t_bool",
+                  "offset": 0,
+                  "slot": "3"
+                },
+                {
+                  "label": "isVerified",
+                  "type": "t_bool",
+                  "offset": 1,
+                  "slot": "3"
+                },
+                {
+                  "label": "createdAt",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "4"
+                },
+                {
+                  "label": "credentialHash",
+                  "type": "t_bytes32",
+                  "offset": 0,
+                  "slot": "5"
+                }
+              ],
+              "numberOfBytes": "192"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "src/FHEQuadraticFunding.sol:FHEQuadraticFunding": {
+        "src": "src/FHEQuadraticFunding.sol:17",
+        "version": {
+          "withMetadata": "67f3095d1817fc5e068abe7524fa724f9c02d224eccb660aa0e2f72b199246f8",
+          "withoutMetadata": "5b03d6e4ad21409b3e33eca187c220c79dec25593b1053324cdea969f9876878",
+          "linkedWithoutMetadata": "5b03d6e4ad21409b3e33eca187c220c79dec25593b1053324cdea969f9876878"
+        },
+        "inherit": [
+          "src/interfaces/IFHEDonation.sol:IFHEDonation",
+          "src/FHEDonationBase.sol:FHEDonationBase",
+          "@fhevm/solidity/config/ZamaConfig.sol:SepoliaConfig",
+          "@openzeppelin/contracts/utils/Pausable.sol:Pausable",
+          "@openzeppelin/contracts/utils/ReentrancyGuard.sol:ReentrancyGuard",
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [
+          "@fhevm/solidity/lib/FHE.sol:FHE"
+        ],
+        "methods": [
+          "(address,address,address,address)",
+          "registerProject(string)",
+          "updateProjectMetadata(uint256,string)",
+          "verifyProject(uint256,bool)",
+          "deactivateProject(uint256)",
+          "createRound(string,uint256,uint256,bytes32,bytes,uint256,uint256)",
+          "addToMatchingPool(uint256,bytes32,bytes)",
+          "donate(uint256,uint256,bytes32,bytes)",
+          "donateBatch(uint256,uint256[],bytes[],bytes[])",
+          "calculateMatching(uint256)",
+          "finalizeRound(uint256)",
+          "claimMatching(uint256,uint256)",
+          "getProject(uint256)",
+          "getRoundInfo(uint256)",
+          "getEncryptedDonation(uint256,uint256,address)",
+          "getEncryptedProjectTotal(uint256,uint256)",
+          "getEncryptedMatchingAmount(uint256,uint256)",
+          "updateCredential(bytes32)",
+          "verifyCredential(address)",
+          "setCredentialVerifier(address)",
+          "withdrawEmergency(address,uint256)",
+          "getDonorReceipts(address)",
+          "getReceipt(bytes32)",
+          "setPlatformFee(uint256)",
+          "setFeeRecipient(address)",
+          "setDonationCooldown(uint256)",
+          "updateContracts(address,address,address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "FHEQuadraticFunding",
+            "src": "src/FHEQuadraticFunding.sol:41"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "platformFeePercentage",
+            "src": "src/FHEQuadraticFunding.sol:33"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "minDonorsForMatching",
+            "src": "src/FHEQuadraticFunding.sol:35"
+          },
+          {
+            "kind": "state-variable-assignment",
+            "name": "donationCooldown",
+            "src": "src/FHEQuadraticFunding.sol:39"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "_status",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "ReentrancyGuard",
+              "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:40"
+            },
+            {
+              "label": "_paused",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_bool",
+              "contract": "Pausable",
+              "src": "@openzeppelin/contracts/utils/Pausable.sol:18"
+            },
+            {
+              "label": "reencryptionPermissions",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_mapping(t_bytes32,t_bool))",
+              "contract": "FHEDonationBase",
+              "src": "src/FHEDonationBase.sol:22"
+            },
+            {
+              "label": "projectRegistry",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_contract(FHEProjectRegistry)44502",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:19"
+            },
+            {
+              "label": "donationRound",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_contract(FHEDonationRound)42842",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:20"
+            },
+            {
+              "label": "matchingPool",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_contract(FHEMatchingPool)43860",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:21"
+            },
+            {
+              "label": "receipts",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_mapping(t_bytes32,t_struct(DonationReceipt)45562_storage)",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:24"
+            },
+            {
+              "label": "donorReceipts",
+              "offset": 0,
+              "slot": "8",
+              "type": "t_mapping(t_address,t_array(t_bytes32)dyn_storage)",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:25"
+            },
+            {
+              "label": "nextReceiptId",
+              "offset": 0,
+              "slot": "9",
+              "type": "t_uint256",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:26"
+            },
+            {
+              "label": "hasParticipated",
+              "offset": 0,
+              "slot": "10",
+              "type": "t_mapping(t_uint256,t_mapping(t_address,t_bool))",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:29"
+            },
+            {
+              "label": "roundParticipants",
+              "offset": 0,
+              "slot": "11",
+              "type": "t_mapping(t_uint256,t_uint256)",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:30"
+            },
+            {
+              "label": "platformFeePercentage",
+              "offset": 0,
+              "slot": "12",
+              "type": "t_uint256",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:33"
+            },
+            {
+              "label": "feeRecipient",
+              "offset": 0,
+              "slot": "13",
+              "type": "t_address",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:34"
+            },
+            {
+              "label": "minDonorsForMatching",
+              "offset": 0,
+              "slot": "14",
+              "type": "t_uint256",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:35"
+            },
+            {
+              "label": "lastDonationTime",
+              "offset": 0,
+              "slot": "15",
+              "type": "t_mapping(t_address,t_uint256)",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:38"
+            },
+            {
+              "label": "donationCooldown",
+              "offset": 0,
+              "slot": "16",
+              "type": "t_uint256",
+              "contract": "FHEQuadraticFunding",
+              "src": "src/FHEQuadraticFunding.sol:39"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_array(t_bytes32)dyn_storage": {
+              "label": "bytes32[]",
+              "numberOfBytes": "32"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_contract(FHEDonationRound)42842": {
+              "label": "contract FHEDonationRound",
+              "numberOfBytes": "20"
+            },
+            "t_contract(FHEMatchingPool)43860": {
+              "label": "contract FHEMatchingPool",
+              "numberOfBytes": "20"
+            },
+            "t_contract(FHEProjectRegistry)44502": {
+              "label": "contract FHEProjectRegistry",
+              "numberOfBytes": "20"
+            },
+            "t_mapping(t_address,t_array(t_bytes32)dyn_storage)": {
+              "label": "mapping(address => bytes32[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_mapping(t_bytes32,t_bool))": {
+              "label": "mapping(address => mapping(bytes32 => bool))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_uint256)": {
+              "label": "mapping(address => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_struct(DonationReceipt)45562_storage)": {
+              "label": "mapping(bytes32 => struct IFHEDonation.DonationReceipt)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_mapping(t_address,t_bool))": {
+              "label": "mapping(uint256 => mapping(address => bool))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_uint256)": {
+              "label": "mapping(uint256 => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_struct(DonationReceipt)45562_storage": {
+              "label": "struct IFHEDonation.DonationReceipt",
+              "members": [
+                {
+                  "label": "roundId",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "projectId",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "donor",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "2"
+                },
+                {
+                  "label": "amount",
+                  "type": "t_userDefinedValueType(euint32)40714",
+                  "offset": 0,
+                  "slot": "3"
+                },
+                {
+                  "label": "timestamp",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "4"
+                }
+              ],
+              "numberOfBytes": "160"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            },
+            "t_userDefinedValueType(euint32)40714": {
+              "label": "euint32",
+              "numberOfBytes": "32",
+              "underlying": "t_bytes32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "src/interfaces/IFHEDonation.sol:IFHEDonation": {
+        "src": "src/interfaces/IFHEDonation.sol:12",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "registerProject(string)",
+          "updateProjectMetadata(uint256,string)",
+          "verifyProject(uint256,bool)",
+          "deactivateProject(uint256)",
+          "createRound(string,uint256,uint256,bytes32,bytes,uint256,uint256)",
+          "addToMatchingPool(uint256,bytes32,bytes)",
+          "donate(uint256,uint256,bytes32,bytes)",
+          "donateBatch(uint256,uint256[],bytes[],bytes[])",
+          "calculateMatching(uint256)",
+          "finalizeRound(uint256)",
+          "claimMatching(uint256,uint256)",
+          "getProject(uint256)",
+          "getRoundInfo(uint256)",
+          "getEncryptedDonation(uint256,uint256,address)",
+          "getEncryptedProjectTotal(uint256,uint256)",
+          "getEncryptedMatchingAmount(uint256,uint256)",
+          "updateCredential(bytes32)",
+          "verifyCredential(address)",
+          "setCredentialVerifier(address)",
+          "withdrawEmergency(address,uint256)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "src/mocks/MockERC20.sol:MockERC20": {
+        "src": "src/mocks/MockERC20.sol:10",
+        "version": {
+          "withMetadata": "96db8abddfe5c4b8a2f44d4a6611cac461d44adfc0273cadb0635e31004dc7f5",
+          "withoutMetadata": "a7e4c5b76f4fb836950f0f2cc784e3cd87dece9b8deeda72cc8aba95417d838f",
+          "linkedWithoutMetadata": "a7e4c5b76f4fb836950f0f2cc784e3cd87dece9b8deeda72cc8aba95417d838f"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/token/ERC20/ERC20.sol:ERC20",
+          "@openzeppelin/contracts/interfaces/draft-IERC6093.sol:IERC20Errors",
+          "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol:IERC20Metadata",
+          "@openzeppelin/contracts/token/ERC20/IERC20.sol:IERC20",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "(string,string,uint8)",
+          "decimals()",
+          "mint(address,uint256)",
+          "burn(address,uint256)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "MockERC20",
+            "src": "src/mocks/MockERC20.sol:13"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_balances",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_mapping(t_address,t_uint256)",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:30"
+            },
+            {
+              "label": "_allowances",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:32"
+            },
+            {
+              "label": "_totalSupply",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_uint256",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:34"
+            },
+            {
+              "label": "_name",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_string_storage",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:36"
+            },
+            {
+              "label": "_symbol",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_string_storage",
+              "contract": "ERC20",
+              "src": "@openzeppelin/contracts/token/ERC20/ERC20.sol:37"
+            },
+            {
+              "label": "_decimals",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_uint8",
+              "contract": "MockERC20",
+              "src": "src/mocks/MockERC20.sol:11"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+              "label": "mapping(address => mapping(address => uint256))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_uint256)": {
+              "label": "mapping(address => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_string_storage": {
+              "label": "string",
+              "numberOfBytes": "32"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            },
+            "t_uint8": {
+              "label": "uint8",
+              "numberOfBytes": "1"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      },
+      "src/test/TestFHEOperations.sol:TestFHEOperations": {
+        "src": "src/test/TestFHEOperations.sol:12",
+        "version": {
+          "withMetadata": "1d7cee9f6883228bb123ca2ae5a3cfb9c15700f12cb8952c0caeb2d304bb41ad",
+          "withoutMetadata": "efde58b858b183c6b22d3a645cbe13aee17461ecbe70b3f42108486aa6c3b6f1",
+          "linkedWithoutMetadata": "efde58b858b183c6b22d3a645cbe13aee17461ecbe70b3f42108486aa6c3b6f1"
+        },
+        "inherit": [
+          "src/FHEDonationBase.sol:FHEDonationBase",
+          "@fhevm/solidity/config/ZamaConfig.sol:SepoliaConfig",
+          "@openzeppelin/contracts/utils/Pausable.sol:Pausable",
+          "@openzeppelin/contracts/utils/ReentrancyGuard.sol:ReentrancyGuard",
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [
+          "@fhevm/solidity/lib/FHE.sol:FHE"
+        ],
+        "methods": [
+          "()",
+          "testSafeAdd(bytes32,bytes32,bytes,bytes)",
+          "testSafeSub(bytes32,bytes32,bytes,bytes)",
+          "testSafeMul(bytes32,bytes32,bytes,bytes)",
+          "testDivPlaintext(bytes32,bytes,uint32)",
+          "testCalculatePercentage(bytes32,bytes,uint16)",
+          "testApproxSqrt(bytes32,bytes)",
+          "testBatchProcess(externalEuint32[],bytes[],uint8)",
+          "testMin(bytes32,bytes32,bytes,bytes)",
+          "testMax(bytes32,bytes32,bytes,bytes)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "TestFHEOperations",
+            "src": "src/test/TestFHEOperations.sol:14"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "_status",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "ReentrancyGuard",
+              "src": "@openzeppelin/contracts/utils/ReentrancyGuard.sol:40"
+            },
+            {
+              "label": "_paused",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_bool",
+              "contract": "Pausable",
+              "src": "@openzeppelin/contracts/utils/Pausable.sol:18"
+            },
+            {
+              "label": "reencryptionPermissions",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_mapping(t_bytes32,t_bool))",
+              "contract": "FHEDonationBase",
+              "src": "src/FHEDonationBase.sol:22"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_mapping(t_bytes32,t_bool))": {
+              "label": "mapping(address => mapping(bytes32 => bool))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.24"
+      }
+    }
+  ]
+}
