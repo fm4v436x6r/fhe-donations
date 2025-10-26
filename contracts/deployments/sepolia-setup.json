@@ -1,0 +1,29 @@
+{
+  "network": "sepolia",
+  "timestamp": "2025-10-26T12:53:24.820Z",
+  "deployer": "0x74B96c18B96251e4824BA06330c60C9a334382Ba",
+  "projects": [
+    {
+      "id": "1",
+      "name": "Clean Water Initiative",
+      "description": "Providing clean water access to underserved communities through sustainable infrastructure.",
+      "category": "Environment",
+      "verified": true
+    },
+    {
+      "id": "2",
+      "name": "Education for All",
+      "description": "Building schools and providing educational resources in rural areas.",
+      "category": "Education",
+      "verified": true
+    },
+    {
+      "id": "3",
+      "name": "Healthcare Access Project",
+      "description": "Mobile healthcare clinics serving remote communities with essential medical services.",
+      "category": "Health",
+      "verified": true
+    }
+  ],
+  "roundNote": "Create funding rounds via frontend UI with proper FHE encryption"
+}

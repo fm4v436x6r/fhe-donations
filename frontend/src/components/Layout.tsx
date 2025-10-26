@@ -8,6 +8,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const navItems = [
     { path: '/', label: 'Home', icon: <HomeOutlined /> },
     { path: '/rounds', label: 'Rounds', icon: <AppstoreOutlined /> },
+    { path: '/create-round', label: 'Create Round', icon: <PlusOutlined /> },
     { path: '/my-donations', label: 'My Donations', icon: <HistoryOutlined /> },
     { path: '/create-project', label: 'Create Project', icon: <PlusOutlined /> },
     { path: '/admin', label: 'Admin', icon: <SettingOutlined /> },

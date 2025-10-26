@@ -1,41 +1,108 @@
-/**
- * FHE (Fully Homomorphic Encryption) utilities using Zama SDK
- * Client-side encryption for private donations
- * SDK is loaded from CDN in index.html
- */
+import { hexlify, getAddress } from "ethers";
+
+declare global {
+  interface Window {
+    relayerSDK?: {
+      initSDK: () => Promise<void>;
+      createInstance: (config: Record<string, unknown>) => Promise<any>;
+      SepoliaConfig: Record<string, unknown>;
+    };
+    ethereum?: any;
+  }
+}
 
 export interface EncryptedData {
   encryptedAmount: string;
   proof: string;
 }
 
-// Global FHE instance
-let relayerSDK: any = null;
+let fheInstance: any = null;
+let sdkPromise: Promise<any> | null = null;
+
+const SDK_URL = 'https://cdn.zama.ai/relayer-sdk-js/0.2.0/relayer-sdk-js.js';
 
 /**
- * Initialize FHE Relayer SDK (from CDN)
- * @returns FHE instance
+ * Dynamically load Zama FHE SDK from CDN
  */
-export async function initFHE() {
-  if (relayerSDK) return relayerSDK;
-
-  // Check if SDK is loaded from CDN
-  if (typeof window !== 'undefined' && (window as any).relayerSDK) {
-    relayerSDK = (window as any).relayerSDK;
-    console.log('✅ FHE SDK loaded from CDN');
-    return relayerSDK;
+const loadSdk = async (): Promise<any> => {
+  if (typeof window === 'undefined') {
+    throw new Error('FHE SDK requires browser environment');
   }
 
-  // SDK should be loaded from CDN
-  console.error('❌ FHE SDK not loaded');
-  throw new Error(
-    'FHE SDK not available. Please ensure the CDN script is loaded in index.html'
-  );
+  if (window.relayerSDK) {
+    return window.relayerSDK;
+  }
+
+  if (!sdkPromise) {
+    sdkPromise = new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${SDK_URL}"]`) as HTMLScriptElement | null;
+      if (existing) {
+        existing.addEventListener('load', () => resolve(window.relayerSDK));
+        existing.addEventListener('error', () => reject(new Error('Failed to load FHE SDK')));
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = SDK_URL;
+      script.async = true;
+      script.onload = () => {
+        if (window.relayerSDK) {
+          resolve(window.relayerSDK);
+        } else {
+          reject(new Error('relayerSDK unavailable after load'));
+        }
+      };
+      script.onerror = () => reject(new Error('Failed to load FHE SDK'));
+      document.body.appendChild(script);
+    });
+  }
+
+  return sdkPromise;
+};
+
+/**
+ * Initialize FHE instance with Sepolia network configuration
+ */
+export async function initFHE(provider?: any): Promise<any> {
+  if (fheInstance) {
+    return fheInstance;
+  }
+
+  if (typeof window === 'undefined') {
+    throw new Error('FHE SDK requires browser environment');
+  }
+
+  // Get Ethereum provider
+  const ethereumProvider = provider || window.ethereum;
+
+  if (!ethereumProvider) {
+    throw new Error('Ethereum provider not found. Please connect your wallet first.');
+  }
+
+  console.log('🔌 Initializing FHE with Ethereum provider');
+
+  const sdk = await loadSdk();
+  if (!sdk) {
+    throw new Error('FHE SDK not available');
+  }
+
+  await sdk.initSDK();
+
+  // Use the built-in SepoliaConfig from the SDK
+  const config = {
+    ...sdk.SepoliaConfig,
+    network: ethereumProvider,
+  };
+
+  fheInstance = await sdk.createInstance(config);
+  console.log('✅ FHE instance initialized for Sepolia');
+
+  return fheInstance;
 }
 
 /**
  * Encrypt donation amount using FHE
- * @param amount - Amount in wei (bigint)
+ * @param amount - Amount in Gwei (bigint)
  * @param contractAddress - Target contract address
  * @param userAddress - User's wallet address
  * @returns Encrypted amount and proof
@@ -43,25 +110,26 @@ export async function initFHE() {
 export async function encryptDonation(
   amount: bigint,
   contractAddress: string,
-  userAddress: string
+  userAddress: string,
+  provider?: any
 ): Promise<EncryptedData> {
   try {
-    const fhe = await initFHE();
+    const fhe = await initFHE(provider);
+    const checksumAddress = getAddress(contractAddress);
 
     // Create encrypted input
-    const input = fhe.createEncryptedInput(contractAddress, userAddress);
+    const input = fhe.createEncryptedInput(checksumAddress, userAddress);
 
-    // Add amount as euint32 (sufficient for donations, max ~4.3 ETH)
-    // Convert bigint to number for add32 (safe since max is 2^32)
+    // Add amount as euint32 (sufficient for donations up to ~4.29 ETH in Gwei)
+    // euint32 max: 4,294,967,295 Gwei = 4.294967295 ETH
     if (amount > BigInt(2**32 - 1)) {
-      throw new Error('Amount too large. Maximum is 4.3 ETH per donation.');
+      throw new Error('Amount too large. Maximum is 4.29 ETH per donation.');
     }
     input.add32(Number(amount));
 
     // Encrypt and generate proof
     const { handles, inputProof } = await input.encrypt();
 
-    // Convert to hex strings
     const encryptedAmount = hexlify(handles[0]);
     const proof = hexlify(inputProof);
 
@@ -79,17 +147,6 @@ export async function encryptDonation(
     console.error('❌ Encryption failed:', error);
     throw new Error('Failed to encrypt donation. Please try again.');
   }
-}
-
-/**
- * Convert Uint8Array to hex string
- * @param arr - Uint8Array
- * @returns Hex string with 0x prefix
- */
-function hexlify(arr: Uint8Array): string {
-  return '0x' + Array.from(arr)
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
 }
 
 /**
@@ -111,11 +168,7 @@ export async function requestDecryption(
   encryptedData: string,
   userAddress: string
 ): Promise<string> {
-  const fhe = await initFHE();
-
   try {
-    // This would integrate with Gateway for actual decryption
-    // For now, return pending status
     console.log('📤 Decryption requested for:', userAddress);
     return 'Decryption pending via Gateway...';
   } catch (error) {
@@ -129,7 +182,7 @@ export async function requestDecryption(
  * @returns Boolean indicating availability
  */
 export function isFHEAvailable(): boolean {
-  return typeof window !== 'undefined' && !!(window as any).relayerSDK;
+  return fheInstance !== null;
 }
 
 /**
@@ -137,7 +190,7 @@ export function isFHEAvailable(): boolean {
  */
 export async function preloadFHE(): Promise<void> {
   try {
-    await initFHE();
+    await loadSdk();
     console.log('✅ FHE SDK preloaded');
   } catch (error) {
     console.warn('⚠️  FHE SDK preload failed:', error);

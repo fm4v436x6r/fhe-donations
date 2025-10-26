@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { Layout } from '@/components/Layout';
 import { StatusBadge } from '@/components/StatusBadge';
 import { EncryptedBadge } from '@/components/EncryptedBadge';
@@ -11,13 +12,37 @@ import { Avatar, Progress, Steps, Card } from 'antd';
 import { toast } from 'sonner';
 import { encryptDonation } from '@/lib/fhe';
 import { useDonationStore } from '@/stores/useDonationStore';
+import { CONTRACT_ADDRESSES } from '@/config';
+
+// FHEQuadraticFunding ABI (only donate function)
+const QUADRATIC_FUNDING_ABI = [
+  {
+    name: 'donate',
+    type: 'function',
+    stateMutability: 'nonpayable',
+    inputs: [
+      { name: 'roundId', type: 'uint256' },
+      { name: 'projectId', type: 'uint256' },
+      { name: 'encryptedAmountHandle', type: 'bytes32' },
+      { name: 'inputProof', type: 'bytes' }
+    ],
+    outputs: []
+  }
+] as const;
 
 export default function ProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
+  const { address: userAddress } = useAccount();
+  const { writeContractAsync } = useWriteContract();
   const [amount, setAmount] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>();
   const { setIsEncrypting } = useDonationStore();
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed, isError: isTxError, error: txError } = useWaitForTransactionReceipt({
+    hash: txHash,
+  });
 
   // Find project (search all rounds)
   let project = null;
@@ -47,10 +72,45 @@ export default function ProjectDetail() {
   const amountNum = parseFloat(amount) || 0;
   const isValidAmount = amountNum >= minDonation && amountNum <= maxDonation;
 
+  // Monitor transaction confirmation or failure
+  useEffect(() => {
+    if (isConfirmed && currentStep === 3) {
+      toast.dismiss('confirming');
+      toast.success('✅ Donation confirmed!', {
+        description: `Transaction confirmed on-chain`,
+        duration: 5000,
+      });
+      setCurrentStep(0);
+      setIsSubmitting(false);
+      setTxHash(undefined);
+    }
+  }, [isConfirmed, currentStep]);
+
+  // Monitor transaction errors
+  useEffect(() => {
+    if (isTxError && currentStep === 3) {
+      toast.dismiss('confirming');
+      toast.error('❌ Transaction failed', {
+        description: txError?.message || 'Project does not exist or transaction reverted',
+        duration: 8000,
+      });
+      setCurrentStep(0);
+      setIsSubmitting(false);
+      setTxHash(undefined);
+    }
+  }, [isTxError, txError, currentStep]);
+
   const handleDonate = async () => {
     if (!isValidAmount) {
       toast.error('Invalid amount', {
         description: `Please enter an amount between ${minDonation} and ${maxDonation} ETH`,
+      });
+      return;
+    }
+
+    if (!userAddress) {
+      toast.error('Wallet not connected', {
+        description: 'Please connect your wallet first',
       });
       return;
     }
@@ -64,34 +124,58 @@ export default function ProjectDetail() {
       toast.loading('🔐 Encrypting your donation...', { id: 'encrypting' });
       setIsEncrypting(true);
 
-      const amountWei = BigInt(Math.floor(amountNum * 1e18));
-      await encryptDonation(amountWei, '0xContractAddress', '0xUserAddress');
+      // Convert ETH to Gwei (1 ETH = 1e9 Gwei)
+      // euint32 max: 4,294,967,295 Gwei = ~4.29 ETH
+      const amountGwei = BigInt(Math.floor(amountNum * 1e9));
+      const { encryptedAmount, proof } = await encryptDonation(
+        amountGwei,
+        CONTRACT_ADDRESSES.QUADRATIC_FUNDING,
+        userAddress
+      );
       
       toast.dismiss('encrypting');
       setIsEncrypting(false);
 
-      // Step 2: Submitting
+      // Step 2: Submitting transaction
       setCurrentStep(2);
       toast.loading('📤 Submitting to blockchain...', { id: 'submitting' });
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      const hash = await writeContractAsync({
+        address: CONTRACT_ADDRESSES.QUADRATIC_FUNDING as `0x${string}`,
+        abi: QUADRATIC_FUNDING_ABI,
+        functionName: 'donate',
+        args: [
+          BigInt(round.id),           // roundId
+          BigInt(projectId!),         // projectId
+          encryptedAmount as `0x${string}`,  // encryptedAmountHandle
+          proof as `0x${string}`      // inputProof
+        ],
+      });
+
+      setTxHash(hash);
       toast.dismiss('submitting');
 
-      // Step 3: Success
+      // Step 3: Confirming
       setCurrentStep(3);
-      toast.success('✅ Donation successful!', {
-        description: `You donated ${amount} ETH to ${project.name}`,
-      });
+      toast.loading('⏳ Waiting for confirmation...', { id: 'confirming' });
+
+      // Transaction submitted, now waiting for confirmation
+      // useEffect will handle success notification when isConfirmed becomes true
 
       setAmount('');
-      setCurrentStep(0);
     } catch (error: any) {
-      toast.error('Donation failed', {
-        description: error.message,
+      toast.dismiss('encrypting');
+      toast.dismiss('submitting');
+      toast.dismiss('confirming');
+      toast.error('❌ Donation failed', {
+        description: error.message || 'Failed to submit transaction',
+        duration: 5000,
       });
       setCurrentStep(0);
-    } finally {
       setIsSubmitting(false);
+      setIsEncrypting(false);
     }
+    // Note: Don't set isSubmitting to false here - let useEffect handle it after confirmation
   };
 
   return (

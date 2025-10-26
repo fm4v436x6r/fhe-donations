@@ -1,24 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Layout } from '@/components/Layout';
 import { RoundCard } from '@/components/RoundCard';
 import { useRoundStore } from '@/stores/useRoundStore';
-import { mockRounds } from '@/lib/mockData';
 import { Button } from '@/components/ui/button';
-import { LockOutlined } from '@ant-design/icons';
+import { LockOutlined, PlusOutlined } from '@ant-design/icons';
+import { useAllRounds, useAllProjects } from '@/hooks/useContracts';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const navigate = useNavigate();
   const { activeRounds, setActiveRounds } = useRoundStore();
+  const { roundIds } = useAllRounds();
+  const { totalProjects } = useAllProjects();
 
+  // Clear rounds data if no rounds exist
   useEffect(() => {
-    // Load rounds (mock data for now)
-    setActiveRounds(mockRounds);
-  }, [setActiveRounds]);
+    if (roundIds.length === 0) {
+      setActiveRounds([]);
+    }
+  }, [roundIds, setActiveRounds]);
 
-  const stats = [
+  const stats = useMemo(() => [
     { label: 'Total Donated', value: '🔒 ***', description: 'Encrypted amount' },
     { label: 'Active Rounds', value: activeRounds.filter(r => r.status === 'active').length.toString(), description: 'Live funding rounds' },
-    { label: 'Projects Funded', value: activeRounds.reduce((sum, r) => sum + r.projectCount, 0).toString(), description: 'Total projects' },
-  ];
+    { label: 'Projects Funded', value: totalProjects.toString(), description: 'Total projects' },
+  ], [activeRounds, totalProjects]);
 
   return (
     <Layout>
@@ -75,6 +81,13 @@ export default function Home() {
               Support projects in ongoing funding rounds
             </p>
           </div>
+          <Button
+            onClick={() => navigate('/create-round')}
+            className="flex items-center gap-2"
+          >
+            <PlusOutlined />
+            Create Round
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -85,7 +98,14 @@ export default function Home() {
 
         {activeRounds.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">No active rounds at the moment</p>
+            <p className="text-muted-foreground mb-4">No active rounds at the moment</p>
+            <Button
+              onClick={() => navigate('/create-round')}
+              className="flex items-center gap-2"
+            >
+              <PlusOutlined />
+              Create First Round
+            </Button>
           </div>
         )}
       </section>

@@ -2,13 +2,13 @@
   "network": "sepolia",
   "chainId": "11155111",
   "deployer": "0x74B96c18B96251e4824BA06330c60C9a334382Ba",
-  "timestamp": "2025-10-26T11:51:38.692Z",
+  "timestamp": "2025-10-26T13:13:35.024Z",
   "fhevmVersion": "0.8.0",
   "contracts": {
-    "FHEProjectRegistry": "0x4271643dd02d242E63a5a5Bd4f0958833234FDbf",
-    "FHEDonationRound": "0xC023Ec20EeAe3815Ef57Edf6Ca3C500A5Ab14F33",
-    "MockUSDC": "0x06709DBf0Dacdb383E36A35326eD1D157CB98558",
-    "FHEMatchingPool": "0x766848E1428e92Af039bd3010445C813234E8a5E",
-    "FHEQuadraticFunding": "0x4Ee78112FC303AAC060883Bf71843103809b2b53"
+    "FHEProjectRegistry": "0x651a9976BC658E68be0C59d267Fdb01EDDa69c9f",
+    "FHEDonationRound": "0x50a50eD771054A4e0Bf0373402fc4A72Da3308B8",
+    "MockUSDC": "0xed9577054D8916c1460fddC972249eE6646E4e0D",
+    "FHEMatchingPool": "0xdd830C0A2e39eA986433761eD4716C979D056AD4",
+    "FHEQuadraticFunding": "0x110E812178539Bf7da9Edeeb8c7261700054D34b"
   }
 }

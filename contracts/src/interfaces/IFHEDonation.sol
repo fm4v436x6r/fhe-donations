@@ -63,16 +63,14 @@ interface IFHEDonation {
         string calldata name,
         uint256 startTime,
         uint256 endTime,
-        externalEuint32 encryptedMatchingPoolHandle,
-        bytes calldata inputProof,
+        uint256 matchingPoolAmount,
         uint256 minDonation,
         uint256 maxDonation
     ) external returns (uint256 roundId);
 
     function addToMatchingPool(
         uint256 roundId,
-        externalEuint32 encryptedAmountHandle,
-        bytes calldata inputProof
+        uint256 amount
     ) external;
 
     // Donation Functions

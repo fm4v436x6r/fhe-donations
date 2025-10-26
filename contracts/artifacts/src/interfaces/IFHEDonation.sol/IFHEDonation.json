@@ -174,14 +174,9 @@
           "type": "uint256"
         },
         {
-          "internalType": "externalEuint32",
-          "name": "encryptedAmountHandle",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bytes",
-          "name": "inputProof",
-          "type": "bytes"
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
         }
       ],
       "name": "addToMatchingPool",
@@ -238,14 +233,9 @@
           "type": "uint256"
         },
         {
-          "internalType": "externalEuint32",
-          "name": "encryptedMatchingPoolHandle",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bytes",
-          "name": "inputProof",
-          "type": "bytes"
+          "internalType": "uint256",
+          "name": "matchingPoolAmount",
+          "type": "uint256"
         },
         {
           "internalType": "uint256",

@@ -17,7 +17,7 @@ contract FHEDonationRound is FHEDonationBase {
         string name;
         uint256 startTime;
         uint256 endTime;
-        euint32 matchingPool;
+        uint256 matchingPool; // Public matching pool amount (in Gwei)
         uint256 minDonation;
         uint256 maxDonation;
         bool isFinalized;
@@ -79,8 +79,7 @@ contract FHEDonationRound is FHEDonationBase {
      * @param name Round name
      * @param startTime Start timestamp
      * @param endTime End timestamp
-     * @param encryptedMatchingPoolHandle Initial encrypted matching pool handle
-     * @param inputProof Proof of valid encryption
+     * @param matchingPoolAmount Initial matching pool amount (public, in Gwei)
      * @param minDonation Minimum donation amount
      * @param maxDonation Maximum donation amount per donor per project
      */
@@ -88,11 +87,10 @@ contract FHEDonationRound is FHEDonationBase {
         string calldata name,
         uint256 startTime,
         uint256 endTime,
-        externalEuint32 encryptedMatchingPoolHandle,
-        bytes calldata inputProof,
+        uint256 matchingPoolAmount,
         uint256 minDonation,
         uint256 maxDonation
-    ) external onlyOwner whenNotPaused returns (uint256 roundId) {
+    ) external whenNotPaused returns (uint256 roundId) {
         require(startTime > block.timestamp, "Invalid start time");
         require(endTime > startTime, "Invalid end time");
         require(maxDonation > minDonation, "Invalid donation limits");
@@ -104,30 +102,28 @@ contract FHEDonationRound is FHEDonationBase {
         round.name = name;
         round.startTime = startTime;
         round.endTime = endTime;
-        round.matchingPool = FHE.fromExternal(encryptedMatchingPoolHandle, inputProof);
+        round.matchingPool = matchingPoolAmount;
         round.minDonation = minDonation;
         round.maxDonation = maxDonation;
         round.isFinalized = false;
-        
+
         emit RoundCreated(roundId, name, startTime, endTime);
     }
     
     /**
      * @notice Add funds to matching pool
      * @param roundId Round ID
-     * @param encryptedAmountHandle Encrypted amount handle (externalEuint32)
-     * @param inputProof Proof of valid encryption
+     * @param amount Amount to add (in Gwei)
      */
     function addToMatchingPool(
         uint256 roundId,
-        externalEuint32 encryptedAmountHandle,
-        bytes calldata inputProof
+        uint256 amount
     ) external roundExists(roundId) whenNotPaused {
         require(!rounds[roundId].isFinalized, "Round finalized");
+        require(amount > 0, "Amount must be > 0");
 
-        euint32 amount = FHE.fromExternal(encryptedAmountHandle, inputProof);
-        rounds[roundId].matchingPool = _safeAdd(rounds[roundId].matchingPool, amount);
-        
+        rounds[roundId].matchingPool += amount;
+
         emit MatchingPoolIncreased(roundId, msg.sender);
     }
     
@@ -264,32 +260,22 @@ contract FHEDonationRound is FHEDonationBase {
             totalSqrtSum = _safeAdd(totalSqrtSum, sqrtSum);
         }
         
-        // Distribute matching pool proportionally
-        euint32 matchingPool = rounds[roundId].matchingPool;
-        euint32 maxMatchingPerProject = _calculatePercentage(matchingPool, uint16(matchingCapPercentage));
+        // Distribute matching pool proportionally (now public)
+        uint256 matchingPool = rounds[roundId].matchingPool;
+        uint256 maxMatchingPerProject = (matchingPool * matchingCapPercentage) / 10000; // 20% cap
         
+        // Simplified matching distribution: equal distribution among projects
+        // TODO: Implement proper quadratic funding calculation using Gateway for decryption
+        uint256 sharePerProject = matchingPool / projects.length;
+        if (sharePerProject > maxMatchingPerProject) {
+            sharePerProject = maxMatchingPerProject;
+        }
+
+        euint32 encryptedShare = FHE.asEuint32(uint32(sharePerProject));
+
         for (uint i = 0; i < projects.length; i++) {
             uint256 projectId = projects[i];
-            
-            // Calculate project's share: (projectSqrtSum^2 / totalSqrtSum^2) * matchingPool
-            euint32 projectSquare = _safeMul(projectSqrtSums[i], projectSqrtSums[i]);
-            euint32 totalSquare = _safeMul(totalSqrtSum, totalSqrtSum);
-
-            // NOTE: Precise quadratic funding requires (projectSquare / totalSquare) * matchingPool
-            // Division by encrypted values is NOT supported in FHE
-            // Production solution: Use Gateway to decrypt totalSquare, calculate ratios, then re-encrypt
-            // For now: Use simplified linear distribution based on sqrt sums
-            // This maintains privacy but sacrifices QF accuracy
-
-            euint32 projectShare = _safeMul(projectSqrtSums[i], matchingPool);
-            // Normalize by dividing by total (approximation)
-            // In production, this MUST be done via Gateway decryption
-
-            // Apply cap
-            ebool exceedsCap = FHE.gt(projectShare, maxMatchingPerProject);
-            projectShare = FHE.select(exceedsCap, maxMatchingPerProject, projectShare);
-
-            projectMatching[roundId][projectId] = projectShare;
+            projectMatching[roundId][projectId] = encryptedShare;
             projectDonations[roundId][projectId].hasMatching = true;
         }
         

@@ -567,8 +567,8 @@
       ]
     },
     "/Users/songsu/Desktop/zama/fhe-donations/contracts/src/interfaces/IFHEDonation.sol": {
-      "lastModificationDate": 1761478314137,
-      "contentHash": "92bd6e88d64cb5863a0a480943ddab85",
+      "lastModificationDate": 1761484185185,
+      "contentHash": "5b886b69e566ebe97c6fac8326464663",
       "sourceName": "src/interfaces/IFHEDonation.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -615,8 +615,8 @@
       ]
     },
     "/Users/songsu/Desktop/zama/fhe-donations/contracts/src/FHEQuadraticFunding.sol": {
-      "lastModificationDate": 1761478413388,
-      "contentHash": "0f8f684e40ad428ab44d4dd198af1e32",
+      "lastModificationDate": 1761484171290,
+      "contentHash": "9468b45328de0d1bf91c56168bb801e8",
       "sourceName": "src/FHEQuadraticFunding.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -716,8 +716,8 @@
       ]
     },
     "/Users/songsu/Desktop/zama/fhe-donations/contracts/src/FHEDonationRound.sol": {
-      "lastModificationDate": 1761478487553,
-      "contentHash": "259eb4ef460697f99c245d2183771ffb",
+      "lastModificationDate": 1761484262297,
+      "contentHash": "d8d353b2cfa5a7da6075effed898f740",
       "sourceName": "src/FHEDonationRound.sol",
       "solcConfig": {
         "version": "0.8.24",

@@ -95,30 +95,25 @@ contract FHEQuadraticFunding is FHEDonationBase, IFHEDonation {
     }
     
     /**
-     * @notice Create a new funding round
+     * @notice Create a new funding round (anyone can create)
      */
     function createRound(
         string calldata name,
         uint256 startTime,
         uint256 endTime,
-        externalEuint32 encryptedMatchingPoolHandle,
-        bytes calldata inputProof,
+        uint256 matchingPoolAmount,
         uint256 minDonation,
         uint256 maxDonation
-    ) external override onlyOwner whenNotPaused returns (uint256 roundId) {
+    ) external override whenNotPaused returns (uint256 roundId) {
         roundId = donationRound.createRound(
             name,
             startTime,
             endTime,
-            encryptedMatchingPoolHandle,
-            inputProof,
+            matchingPoolAmount,
             minDonation,
             maxDonation
         );
 
-        // Initialize matching pool for this round
-        matchingPool.contributeToPool(roundId, encryptedMatchingPoolHandle, inputProof);
-        
         emit RoundCreated(roundId, name, startTime, endTime);
     }
     
@@ -127,11 +122,9 @@ contract FHEQuadraticFunding is FHEDonationBase, IFHEDonation {
      */
     function addToMatchingPool(
         uint256 roundId,
-        externalEuint32 encryptedAmountHandle,
-        bytes calldata inputProof
+        uint256 amount
     ) external override whenNotPaused {
-        donationRound.addToMatchingPool(roundId, encryptedAmountHandle, inputProof);
-        matchingPool.contributeToPool(roundId, encryptedAmountHandle, inputProof);
+        donationRound.addToMatchingPool(roundId, amount);
     }
 
     /**
@@ -149,10 +142,9 @@ contract FHEQuadraticFunding is FHEDonationBase, IFHEDonation {
             "Donation cooldown active"
         );
 
-        // Verify project is active and verified
-        (address owner, , bool isActive, bool isVerified, ) = projectRegistry.getProject(projectId);
+        // Verify project is active
+        (address owner, , bool isActive, , ) = projectRegistry.getProject(projectId);
         require(isActive, "Project not active");
-        require(isVerified, "Project not verified");
 
         // Verify donor credentials if required
         require(projectRegistry.verifyCredential(msg.sender), "Invalid credentials");

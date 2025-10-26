@@ -8,11 +8,14 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { config } from '@/config/wagmi';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Rounds from "./pages/Rounds";
+import CreateRound from "./pages/CreateRound";
 import RoundDetail from "./pages/RoundDetail";
 import ProjectDetail from "./pages/ProjectDetail";
 import MyDonations from "./pages/MyDonations";
 import CreateProject from "./pages/CreateProject";
 import Admin from "./pages/Admin";
+import Debug from "./pages/Debug";
 import NotFound from "./pages/NotFound";
 import { ConfigProvider, theme } from 'antd';
 
@@ -39,11 +42,14 @@ const App = () => (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/rounds" element={<Rounds />} />
+                <Route path="/create-round" element={<CreateRound />} />
                 <Route path="/rounds/:roundId" element={<RoundDetail />} />
                 <Route path="/projects/:projectId" element={<ProjectDetail />} />
                 <Route path="/my-donations" element={<MyDonations />} />
                 <Route path="/create-project" element={<CreateProject />} />
                 <Route path="/admin" element={<Admin />} />
+                <Route path="/debug" element={<Debug />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

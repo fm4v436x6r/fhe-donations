@@ -1,0 +1,14 @@
+{
+  "network": "sepolia",
+  "chainId": "11155111",
+  "deployer": "0x74B96c18B96251e4824BA06330c60C9a334382Ba",
+  "timestamp": "2025-10-26T12:47:29.317Z",
+  "fhevmVersion": "0.8.0",
+  "contracts": {
+    "FHEProjectRegistry": "0xBCb0C9078f42f3a6e6C56f9f3Aa56C4919caE920",
+    "FHEDonationRound": "0x3713e6f24A82fEAfdA4343b0250ACd04eB045717",
+    "MockUSDC": "0xa996ff7333A5AE11000370b8C26A35221A5779C6",
+    "FHEMatchingPool": "0x0751AD669D48710A2b4A1886c6E7Eb08bb8cD7c8",
+    "FHEQuadraticFunding": "0x2C22cB6D6eF9c6e2180cd3F57EDb50fFb48Ce382"
+  }
+}
