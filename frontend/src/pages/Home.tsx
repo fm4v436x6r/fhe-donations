@@ -1,7 +1,6 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Layout } from '@/components/Layout';
 import { RoundCard } from '@/components/RoundCard';
-import { useRoundStore } from '@/stores/useRoundStore';
 import { Button } from '@/components/ui/button';
 import { LockOutlined, PlusOutlined } from '@ant-design/icons';
 import { useAllRounds, useAllProjects } from '@/hooks/useContracts';
@@ -9,22 +8,14 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const navigate = useNavigate();
-  const { activeRounds, setActiveRounds } = useRoundStore();
-  const { roundIds } = useAllRounds();
+  const { totalRounds } = useAllRounds();
   const { totalProjects } = useAllProjects();
-
-  // Clear rounds data if no rounds exist
-  useEffect(() => {
-    if (roundIds.length === 0) {
-      setActiveRounds([]);
-    }
-  }, [roundIds, setActiveRounds]);
 
   const stats = useMemo(() => [
     { label: 'Total Donated', value: '🔒 ***', description: 'Encrypted amount' },
-    { label: 'Active Rounds', value: activeRounds.filter(r => r.status === 'active').length.toString(), description: 'Live funding rounds' },
+    { label: 'Active Rounds', value: totalRounds.toString(), description: 'Live funding rounds' },
     { label: 'Projects Funded', value: totalProjects.toString(), description: 'Total projects' },
-  ], [activeRounds, totalProjects]);
+  ], [totalRounds, totalProjects]);
 
   return (
     <Layout>
@@ -34,24 +25,24 @@ export default function Home() {
           <LockOutlined />
           <span>Privacy-First Quadratic Funding</span>
         </div>
-        
+
         <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4 leading-tight">
           Donate Anonymously with
           <br />
           <span className="text-gradient">FHE Encryption</span>
         </h1>
-        
+
         <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Support public goods while keeping your donations completely private. 
+          Support public goods while keeping your donations completely private.
           Powered by Fully Homomorphic Encryption.
         </p>
 
         <div className="flex items-center justify-center gap-4">
-          <Button size="lg" className="px-8">
-            Explore Projects
+          <Button size="lg" className="px-8" onClick={() => navigate('/rounds')}>
+            Explore Rounds
           </Button>
-          <Button size="lg" variant="outline">
-            Learn More
+          <Button size="lg" variant="outline" onClick={() => navigate('/create-round')}>
+            Create Round
           </Button>
         </div>
       </section>
@@ -72,42 +63,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Active Rounds */}
+      {/* Call to Action */}
       <section>
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-3xl font-bold text-foreground mb-2">Active Rounds</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-2">Get Started</h2>
             <p className="text-muted-foreground">
-              Support projects in ongoing funding rounds
+              Browse funding rounds or create your own
             </p>
           </div>
-          <Button
-            onClick={() => navigate('/create-round')}
-            className="flex items-center gap-2"
-          >
-            <PlusOutlined />
-            Create Round
-          </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {activeRounds.map((round) => (
-            <RoundCard key={round.id} round={round} />
-          ))}
-        </div>
-
-        {activeRounds.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">No active rounds at the moment</p>
-            <Button
-              onClick={() => navigate('/create-round')}
-              className="flex items-center gap-2"
-            >
-              <PlusOutlined />
-              Create First Round
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="card-shadow rounded-lg border border-border bg-card p-8">
+            <h3 className="text-2xl font-bold text-foreground mb-3">Browse Rounds</h3>
+            <p className="text-muted-foreground mb-6">
+              Explore active funding rounds and support public goods projects with encrypted donations
+            </p>
+            <Button size="lg" onClick={() => navigate('/rounds')} className="w-full">
+              View All Rounds
             </Button>
           </div>
-        )}
+
+          <div className="card-shadow rounded-lg border border-border bg-card p-8">
+            <h3 className="text-2xl font-bold text-foreground mb-3">Create a Round</h3>
+            <p className="text-muted-foreground mb-6">
+              Launch your own quadratic funding round to support projects you care about
+            </p>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => navigate('/create-round')}
+              className="w-full flex items-center justify-center gap-2"
+            >
+              <PlusOutlined />
+              Create New Round
+            </Button>
+          </div>
+        </div>
       </section>
     </Layout>
   );

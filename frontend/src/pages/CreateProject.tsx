@@ -1,30 +1,86 @@
 import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Layout } from '@/components/Layout';
 import { Button } from '@/components/ui/button';
-import { Form, Card, Input as AntInput } from 'antd';
-import { toast } from 'sonner';
+import { Input, Form, message, Spin } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { CONTRACT_ADDRESSES } from '@/config';
 
-const { TextArea } = AntInput;
+const { TextArea } = Input;
+
+const PROJECT_REGISTRY_ABI = [
+  {
+    name: 'registerProject',
+    type: 'function',
+    stateMutability: 'nonpayable',
+    inputs: [{ name: 'metadataURI', type: 'string' }],
+    outputs: [{ name: 'projectId', type: 'uint256' }]
+  }
+] as const;
 
 export default function CreateProject() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const roundId = searchParams.get('roundId');
 
-  const handleSubmit = async (values: any) => {
-    setIsSubmitting(true);
-    
+  const [form] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { writeContractAsync } = useWriteContract();
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>();
+
+  const { isLoading: isConfirming } = useWaitForTransactionReceipt({
+    hash: txHash,
+  });
+
+  const handleSubmit = async (values: { name: string; description: string; website?: string; github?: string }) => {
     try {
-      // Simulate submission
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      toast.success('Project submitted!', {
-        description: 'Your project has been submitted for verification. You will be notified once it is approved.',
+      setIsSubmitting(true);
+
+      // Create simple JSON metadata (not uploading to IPFS for demo)
+      const metadata = {
+        name: values.name,
+        description: values.description,
+        website: values.website || '',
+        github: values.github || '',
+        createdAt: new Date().toISOString(),
+      };
+
+      // For demo, use data URI instead of IPFS
+      const metadataJSON = JSON.stringify(metadata);
+      const metadataURI = `data:application/json;base64,${btoa(metadataJSON)}`;
+
+      message.loading({ content: 'Creating project...', key: 'create-project' });
+
+      // Call registerProject
+      const hash = await writeContractAsync({
+        address: CONTRACT_ADDRESSES.PROJECT_REGISTRY as `0x${string}`,
+        abi: PROJECT_REGISTRY_ABI,
+        functionName: 'registerProject',
+        args: [metadataURI],
       });
-      
-      form.resetFields();
+
+      setTxHash(hash);
+
+      message.loading({ content: 'Waiting for confirmation...', key: 'create-project' });
+
+      // Wait for transaction to be mined
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
+      message.success({ content: 'Project created successfully!', key: 'create-project' });
+
+      // Navigate back to round detail if roundId exists
+      if (roundId) {
+        navigate(`/rounds/${roundId}`);
+      } else {
+        navigate('/rounds');
+      }
     } catch (error: any) {
-      toast.error('Submission failed', {
-        description: error.message,
+      console.error('Error creating project:', error);
+      message.error({
+        content: error?.message || 'Failed to create project',
+        key: 'create-project'
       });
     } finally {
       setIsSubmitting(false);
@@ -33,12 +89,22 @@ export default function CreateProject() {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-2xl mx-auto">
+        {/* Back Button */}
+        <Button
+          variant="ghost"
+          onClick={() => navigate(roundId ? `/rounds/${roundId}` : '/rounds')}
+          className="mb-6"
+        >
+          <ArrowLeftOutlined className="mr-2" />
+          Back to {roundId ? 'Round' : 'Rounds'}
+        </Button>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">Create New Project</h1>
           <p className="text-muted-foreground">
-            Submit your project for review. Once approved, it will be available for donations in funding rounds.
+            Register your project to receive funding from donors
           </p>
         </div>
 
@@ -48,27 +114,21 @@ export default function CreateProject() {
             form={form}
             layout="vertical"
             onFinish={handleSubmit}
-            autoComplete="off"
+            disabled={isSubmitting || isConfirming}
           >
             <Form.Item
               label="Project Name"
               name="name"
               rules={[
                 { required: true, message: 'Please enter project name' },
-                {
-                  validator: (_, value) => {
-                    if (!value || value.length <= 100) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('Name must be less than 100 characters'));
-                  },
-                },
+                { min: 3, message: 'Name must be at least 3 characters' },
+                { max: 100, message: 'Name must be at most 100 characters' }
               ]}
             >
-              <AntInput
-                placeholder="Enter your project name"
+              <Input
                 size="large"
-                disabled={isSubmitting}
+                placeholder="e.g., OpenZeppelin SDK"
+                disabled={isSubmitting || isConfirming}
               />
             </Form.Item>
 
@@ -77,82 +137,79 @@ export default function CreateProject() {
               name="description"
               rules={[
                 { required: true, message: 'Please enter project description' },
-                {
-                  validator: (_, value) => {
-                    if (!value || value.length <= 500) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('Description must be less than 500 characters'));
-                  },
-                },
+                { min: 20, message: 'Description must be at least 20 characters' },
+                { max: 500, message: 'Description must be at most 500 characters' }
               ]}
             >
               <TextArea
-                placeholder="Describe your project, its goals, and impact"
-                rows={6}
-                disabled={isSubmitting}
+                rows={4}
+                placeholder="Describe your project, its goals, and how funding will be used..."
+                disabled={isSubmitting || isConfirming}
               />
             </Form.Item>
 
             <Form.Item
-              label="Metadata URI (IPFS)"
-              name="metadataURI"
+              label="Website (Optional)"
+              name="website"
               rules={[
-                { required: true, message: 'Please enter metadata URI' },
-                { pattern: /^ipfs:\/\//, message: 'Must start with ipfs://' },
+                { type: 'url', message: 'Please enter a valid URL' }
               ]}
             >
-              <AntInput
-                placeholder="ipfs://QmExample..."
+              <Input
                 size="large"
-                disabled={isSubmitting}
+                placeholder="https://example.com"
+                disabled={isSubmitting || isConfirming}
               />
             </Form.Item>
 
             <Form.Item
-              label="Project Logo URL (Optional)"
-              name="logoUrl"
+              label="GitHub Repository (Optional)"
+              name="github"
               rules={[
-                {
-                  validator: (_, value) => {
-                    if (!value || /^https?:\/\/.+/.test(value)) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('Please enter a valid URL'));
-                  },
-                },
+                { type: 'url', message: 'Please enter a valid URL' }
               ]}
             >
-              <AntInput
-                placeholder="https://example.com/logo.png"
+              <Input
                 size="large"
-                disabled={isSubmitting}
+                placeholder="https://github.com/username/repo"
+                disabled={isSubmitting || isConfirming}
               />
             </Form.Item>
 
-            {/* Info Card */}
-            <Card className="mb-6 bg-muted/50 border-border">
-              <div className="text-sm space-y-2">
-                <p className="font-semibold text-foreground">Before submitting:</p>
-                <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                  <li>Ensure your metadata is properly formatted and hosted on IPFS</li>
-                  <li>Your project will be reviewed by administrators</li>
-                  <li>Verification typically takes 24-48 hours</li>
-                  <li>You'll be notified once your project is approved</li>
-                </ul>
-              </div>
-            </Card>
+            <div className="bg-muted/50 rounded-lg p-4 mb-6">
+              <p className="text-sm text-muted-foreground">
+                <strong>Note:</strong> For this demo, project metadata is stored as a data URI.
+                In production, you would upload to IPFS or another decentralized storage solution.
+              </p>
+            </div>
 
-            <Form.Item>
+            <div className="flex gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                onClick={() => navigate(roundId ? `/rounds/${roundId}` : '/rounds')}
+                disabled={isSubmitting || isConfirming}
+                className="flex-1"
+              >
+                Cancel
+              </Button>
               <Button
                 type="submit"
-                className="w-full"
                 size="lg"
-                disabled={isSubmitting}
+                disabled={isSubmitting || isConfirming}
+                className="flex-1"
               >
-                {isSubmitting ? 'Submitting...' : 'Submit for Verification'}
+                {isSubmitting || isConfirming ? (
+                  <>
+                    <Spin size="small" className="mr-2" />
+                    {isConfirming ? 'Confirming...' : 'Creating...'}
+                  </>
+                ) : (
+                  'Create Project'
+                )}
               </Button>
-            </Form.Item>
+            </div>
           </Form>
         </div>
       </div>
