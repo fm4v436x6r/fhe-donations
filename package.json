@@ -1,0 +1,59 @@
+{
+  "name": "sealedgood",
+  "version": "1.0.0",
+  "description": "SealedGood - Privacy-Preserving Quadratic Funding Platform powered by Zama FHE",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:registry": "hardhat test test/FHEProjectRegistry.test.js",
+    "test:round": "hardhat test test/FHEDonationRound.test.js",
+    "test:pool": "hardhat test test/FHEMatchingPool.test.js",
+    "test:qf": "hardhat test test/FHEQuadraticFunding.test.js",
+    "test:all": "hardhat test test/*.test.js",
+    "deploy": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:zama": "hardhat run scripts/deploy.js --network zama",
+    "clean": "hardhat clean"
+  },
+  "keywords": [
+    "fhe",
+    "zama",
+    "fhevm",
+    "donations",
+    "quadratic-funding",
+    "blockchain",
+    "privacy",
+    "sealedgood"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@fhevm/hardhat-plugin": "0.3.0-1",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.0",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/hardhat-upgrades": "^3.0.0",
+    "@typechain/ethers-v6": "^0.5.0",
+    "@typechain/hardhat": "^9.0.0",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "chai": "^4.3.10",
+    "chai-as-promised": "^7.1.1",
+    "hardhat": "^2.22.0",
+    "hardhat-gas-reporter": "^1.0.10",
+    "solidity-coverage": "^0.8.12",
+    "ts-node": "^10.9.0",
+    "typechain": "^8.3.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@fhevm/solidity": "^0.9.1",
+    "@openzeppelin/contracts": "^5.4.0",
+    "@openzeppelin/contracts-upgradeable": "^5.4.0",
+    "@zama-fhe/relayer-sdk": "0.3.0-5",
+    "dotenv": "^17.2.3",
+    "ethers": "^6.13.0"
+  }
+}
