@@ -1,21 +1,24 @@
 /**
  * FHE Donations Platform - Contract Addresses
  * Network: Sepolia Testnet
- * fhEVM Version: v0.8.0
- * Deployed: 2025-10-26
+ * fhEVM Version: v0.9.1
+ * Deployed: 2025-12-06
+ *
+ * Privacy Model: Project selection is ENCRYPTED, donation amounts are public (ETH transfers)
+ * This prevents vote buying, social pressure, and strategic voting based on others' choices
  */
 
 export const CONTRACT_ADDRESSES = {
   // Main contract - orchestrates all other contracts
-  QUADRATIC_FUNDING: '0x110E812178539Bf7da9Edeeb8c7261700054D34b',
+  QUADRATIC_FUNDING: '0x28E795Cf499CEAcf55b57095d0045Aa7bdB78E95',
 
   // Component contracts
-  PROJECT_REGISTRY: '0x651a9976BC658E68be0C59d267Fdb01EDDa69c9f',
-  DONATION_ROUND: '0x50a50eD771054A4e0Bf0373402fc4A72Da3308B8',
-  MATCHING_POOL: '0xdd830C0A2e39eA986433761eD4716C979D056AD4',
+  PROJECT_REGISTRY: '0xD0188C3873BC065AA9bF8Fa78B8f4BA72c651263',
+  DONATION_ROUND: '0x9cEE3c0bb7C12ee470311FCCf30cCc52A2A0345a',
+  MATCHING_POOL: '0x784989574A83134a239fa481FAeE4404A688b331',
 
-  // ERC20 Token for donations
-  MOCK_USDC: '0xed9577054D8916c1460fddC972249eE6646E4e0D',
+  // ERC20 Token for donations (legacy - now using native ETH)
+  MOCK_USDC: '0xa512c708D60D93b9805296DD0c7998587a1aefFf',
 } as const;
 
 export const NETWORK_CONFIG = {
@@ -29,9 +32,9 @@ export const NETWORK_CONFIG = {
 } as const;
 
 export const APP_CONFIG = {
-  APP_NAME: 'Shield Fund',
+  APP_NAME: 'SealedGood',
   APP_DESCRIPTION: 'Privacy-Preserving Quadratic Funding Platform',
-  FHE_SDK_VERSION: '0.2.0',
+  FHE_SDK_VERSION: '0.3.0-5',
 } as const;
 
 // Type exports for TypeScript
