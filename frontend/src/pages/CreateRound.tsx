@@ -3,10 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Card } from 'antd';
 import { useState } from 'react';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { CONTRACT_ADDRESSES } from '@/config';
+import { parseEther } from 'viem';
+import { CONTRACT_ADDRESSES, NETWORK_CONFIG } from '@/config';
 import { toast } from 'sonner';
 
-const QUADRATIC_FUNDING_ABI = [
+// Helper to get block explorer tx link
+const getTxExplorerUrl = (hash: string) => `${NETWORK_CONFIG.BLOCK_EXPLORER}/tx/${hash}`;
+
+// New ABI - createRound is on FHEDonationRound contract
+// Parameters: name, startTime, endTime, minDonation, maxDonation (5 params, no matchingPool)
+// Matching pool is added separately via addToMatchingPool()
+const DONATION_ROUND_ABI = [
   {
     name: 'createRound',
     type: 'function',
@@ -15,11 +22,26 @@ const QUADRATIC_FUNDING_ABI = [
       { name: 'name', type: 'string' },
       { name: 'startTime', type: 'uint256' },
       { name: 'endTime', type: 'uint256' },
-      { name: 'matchingPoolAmount', type: 'uint256' },
       { name: 'minDonation', type: 'uint256' },
       { name: 'maxDonation', type: 'uint256' }
     ],
     outputs: [{ name: 'roundId', type: 'uint256' }]
+  },
+  {
+    name: 'addToMatchingPool',
+    type: 'function',
+    stateMutability: 'payable',
+    inputs: [
+      { name: 'roundId', type: 'uint256' }
+    ],
+    outputs: []
+  },
+  {
+    name: 'nextRoundId',
+    type: 'function',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint256' }]
   }
 ] as const;
 
@@ -79,43 +101,60 @@ export default function CreateRound() {
         return;
       }
 
-      // Convert ETH amounts to Gwei (no encryption needed - public matching pool)
-      const matchingPoolGwei = BigInt(Math.floor(parseFloat(matchingPoolETH) * 1e9));
-      const minDonationGwei = BigInt(Math.floor(parseFloat(minDonationETH) * 1e9));
-      const maxDonationGwei = BigInt(Math.floor(parseFloat(maxDonationETH) * 1e9));
+      // Convert ETH amounts to Wei (native ETH now)
+      const minDonationWei = parseEther(minDonationETH);
+      const maxDonationWei = parseEther(maxDonationETH);
+      const matchingPoolWei = parseEther(matchingPoolETH);
 
-      if (matchingPoolGwei > BigInt(2**32 - 1)) {
-        toast.error('Matching pool too large. Maximum is 4.29 ETH');
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Create round on-chain (matching pool is public, no encryption)
+      // Step 1: Create round on-chain (on DONATION_ROUND contract)
       toast.loading('Creating round on blockchain...', { id: 'creating' });
 
       const hash = await writeContractAsync({
-        address: CONTRACT_ADDRESSES.QUADRATIC_FUNDING as `0x${string}`,
-        abi: QUADRATIC_FUNDING_ABI,
+        address: CONTRACT_ADDRESSES.DONATION_ROUND as `0x${string}`,
+        abi: DONATION_ROUND_ABI,
         functionName: 'createRound',
         args: [
           name,
           BigInt(startTime),
           BigInt(endTime),
-          matchingPoolGwei,
-          minDonationGwei,
-          maxDonationGwei
+          minDonationWei,
+          maxDonationWei
         ],
       });
 
       setTxHash(hash);
       toast.dismiss('creating');
-      toast.loading('Waiting for confirmation...', { id: 'confirming' });
+      toast.loading(
+        <div className="space-y-1">
+          <p>Waiting for confirmation...</p>
+          <a
+            href={getTxExplorerUrl(hash)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline text-sm"
+          >
+            View transaction →
+          </a>
+        </div>,
+        { id: 'confirming' }
+      );
 
     } catch (error: any) {
       console.error('Error creating round:', error);
       toast.dismiss('creating');
       toast.dismiss('confirming');
-      toast.error(error.message || 'Failed to create round');
+
+      let errorMessage = 'Failed to create round';
+      if (error.message) {
+        if (error.message.includes('user rejected')) {
+          errorMessage = 'Transaction rejected by user';
+        } else if (error.message.includes('insufficient funds')) {
+          errorMessage = 'Insufficient ETH balance';
+        } else {
+          errorMessage = error.message.slice(0, 100);
+        }
+      }
+      toast.error('Create round failed', { description: errorMessage, duration: 8000 });
       setIsSubmitting(false);
     }
   };
@@ -124,8 +163,20 @@ export default function CreateRound() {
   if (isConfirmed && txHash) {
     toast.dismiss('confirming');
     toast.success('Round created successfully!', {
-      description: 'Your funding round is now live',
-      duration: 5000,
+      description: (
+        <div className="space-y-1">
+          <p>Your funding round is now live</p>
+          <a
+            href={getTxExplorerUrl(txHash)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline text-sm"
+          >
+            View on Explorer →
+          </a>
+        </div>
+      ),
+      duration: 8000,
     });
     setIsSubmitting(false);
     setTxHash(undefined);
@@ -257,10 +308,10 @@ export default function CreateRound() {
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <h4 className="font-medium text-blue-900 mb-2">🔒 Privacy Features</h4>
               <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Matching pool amount is public and transparent</li>
-                <li>• Donor donations will be encrypted using FHE</li>
-                <li>• Individual donation amounts remain private</li>
-                <li>• Quadratic funding calculations on encrypted data</li>
+                <li>• <strong>Project selection is ENCRYPTED</strong> - no one knows who you voted for!</li>
+                <li>• Donation amounts are public (ETH transfers are visible)</li>
+                <li>• Matching pool can be added separately after round creation</li>
+                <li>• Prevents vote buying, social pressure, and strategic voting</li>
               </ul>
             </div>
 
