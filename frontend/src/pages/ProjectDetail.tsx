@@ -1,29 +1,48 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useReadContract } from 'wagmi';
+import { parseEther } from 'viem';
 import { Layout } from '@/components/Layout';
 import { StatusBadge } from '@/components/StatusBadge';
 import { EncryptedBadge } from '@/components/EncryptedBadge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowLeftOutlined, CheckCircleFilled, UserOutlined, WalletOutlined, LockOutlined } from '@ant-design/icons';
-import { Avatar, Progress, Steps, Card, Spin } from 'antd';
+import { Avatar, Steps, Card, Spin } from 'antd';
 import { toast } from 'sonner';
-import { encryptDonation } from '@/lib/fhe';
+import { encryptProjectId } from '@/lib/fhe';
 import { useDonationStore } from '@/stores/useDonationStore';
-import { CONTRACT_ADDRESSES } from '@/config';
+import { CONTRACT_ADDRESSES, NETWORK_CONFIG } from '@/config';
 import type { Project, Round } from '@/types';
 
-// ABIs
-const QUADRATIC_FUNDING_ABI = [
+// Helper to get block explorer tx link
+const getTxExplorerUrl = (hash: string) => `${NETWORK_CONFIG.BLOCK_EXPLORER}/tx/${hash}`;
+
+// New ABI for the updated contract with encrypted project selection
+const DONATION_ROUND_ABI = [
+  {
+    name: 'rounds',
+    type: 'function',
+    stateMutability: 'view',
+    inputs: [{ name: 'roundId', type: 'uint256' }],
+    outputs: [
+      { name: 'id', type: 'uint256' },
+      { name: 'name', type: 'string' },
+      { name: 'startTime', type: 'uint256' },
+      { name: 'endTime', type: 'uint256' },
+      { name: 'matchingPool', type: 'uint256' },
+      { name: 'minDonation', type: 'uint256' },
+      { name: 'maxDonation', type: 'uint256' },
+      { name: 'isFinalized', type: 'bool' }
+    ]
+  },
   {
     name: 'donate',
     type: 'function',
-    stateMutability: 'nonpayable',
+    stateMutability: 'payable',  // Now payable - sends ETH directly
     inputs: [
       { name: 'roundId', type: 'uint256' },
-      { name: 'projectId', type: 'uint256' },
-      { name: 'encryptedAmountHandle', type: 'bytes32' },
+      { name: 'encryptedProjectId', type: 'bytes32' },  // Encrypted PROJECT ID
       { name: 'inputProof', type: 'bytes' }
     ],
     outputs: []
@@ -45,37 +64,6 @@ const PROJECT_REGISTRY_ABI = [
       { name: 'credentialHash', type: 'bytes32' },
       { name: 'createdAt', type: 'uint256' }
     ]
-  }
-] as const;
-
-const DONATION_ROUND_ABI = [
-  {
-    name: 'rounds',
-    type: 'function',
-    stateMutability: 'view',
-    inputs: [{ name: 'roundId', type: 'uint256' }],
-    outputs: [
-      { name: 'id', type: 'uint256' },
-      { name: 'name', type: 'string' },
-      { name: 'startTime', type: 'uint256' },
-      { name: 'endTime', type: 'uint256' },
-      { name: 'matchingPool', type: 'uint256' },
-      { name: 'minDonation', type: 'uint256' },
-      { name: 'maxDonation', type: 'uint256' },
-      { name: 'isFinalized', type: 'bool' }
-    ]
-  },
-  {
-    name: 'processDonation',
-    type: 'function',
-    stateMutability: 'nonpayable',
-    inputs: [
-      { name: 'roundId', type: 'uint256' },
-      { name: 'projectId', type: 'uint256' },
-      { name: 'encryptedAmountHandle', type: 'bytes32' },
-      { name: 'inputProof', type: 'bytes' }
-    ],
-    outputs: []
   }
 ] as const;
 
@@ -132,8 +120,8 @@ export default function ProjectDetail() {
         metadataURI,
         creator: owner,
         verified: isVerified,
-        donorCount: 234, // Mock for now
-        totalDonations: '🔒 ***',
+        donorCount: 0, // Will be updated from contract
+        totalDonations: '🔒 Hidden',  // Encrypted
         createdAt: Date.now(),
       });
     }
@@ -168,7 +156,7 @@ export default function ProjectDetail() {
         description: '',
         startDate: new Date(Number(startTime) * 1000).toISOString(),
         endDate: new Date(Number(endTime) * 1000).toISOString(),
-        matchingPool: Number(matchingPool) / 1e9,
+        matchingPool: Number(matchingPool) / 1e18, // Wei to ETH
         totalDonations: 0,
         totalDonors: 0,
         projectCount: 0,
@@ -179,31 +167,61 @@ export default function ProjectDetail() {
 
   // Monitor transaction confirmation or failure
   useEffect(() => {
-    if (isConfirmed && currentStep === 3) {
+    if (isConfirmed && currentStep === 3 && txHash) {
       toast.dismiss('confirming');
-      toast.success('✅ Donation confirmed!', {
-        description: `Transaction confirmed on-chain`,
-        duration: 5000,
-      });
-      setCurrentStep(0);
-      setIsSubmitting(false);
-      setTxHash(undefined);
-    }
-  }, [isConfirmed, currentStep]);
-
-  // Monitor transaction errors
-  useEffect(() => {
-    if (isTxError && currentStep === 3) {
-      toast.dismiss('confirming');
-      toast.error('❌ Transaction failed', {
-        description: txError?.message || 'Project does not exist or transaction reverted',
+      toast.success('Anonymous donation confirmed!', {
+        description: (
+          <div className="space-y-1">
+            <p>Your vote has been recorded privately</p>
+            <a
+              href={getTxExplorerUrl(txHash)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline text-sm flex items-center gap-1"
+            >
+              View on Explorer →
+            </a>
+          </div>
+        ),
         duration: 8000,
       });
       setCurrentStep(0);
       setIsSubmitting(false);
       setTxHash(undefined);
     }
-  }, [isTxError, txError, currentStep]);
+  }, [isConfirmed, currentStep, txHash]);
+
+  // Monitor transaction errors
+  useEffect(() => {
+    if (isTxError && currentStep === 3) {
+      toast.dismiss('confirming');
+      const errorMessage = txError?.message?.includes('reverted')
+        ? 'Transaction reverted - check contract state'
+        : txError?.message?.slice(0, 100) || 'Transaction failed';
+
+      toast.error('Transaction failed', {
+        description: (
+          <div className="space-y-1">
+            <p className="text-sm">{errorMessage}</p>
+            {txHash && (
+              <a
+                href={getTxExplorerUrl(txHash)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline text-sm flex items-center gap-1"
+              >
+                View on Explorer →
+              </a>
+            )}
+          </div>
+        ),
+        duration: 10000,
+      });
+      setCurrentStep(0);
+      setIsSubmitting(false);
+      setTxHash(undefined);
+    }
+  }, [isTxError, txError, currentStep, txHash]);
 
   // Handle loading states
   if (isLoadingProject || isLoadingRound) {
@@ -228,8 +246,9 @@ export default function ProjectDetail() {
     );
   }
 
-  const minDonation = Number(roundData![5]) / 1e9; // Convert from Gwei
-  const maxDonation = Number(roundData![6]) / 1e9;
+  // Round data is in wei now
+  const minDonation = Number(roundData![5]) / 1e18; // Wei to ETH
+  const maxDonation = Number(roundData![6]) / 1e18;
   const amountNum = parseFloat(amount) || 0;
   const isValidAmount = amountNum >= minDonation && amountNum <= maxDonation;
 
@@ -252,67 +271,87 @@ export default function ProjectDetail() {
     setCurrentStep(0);
 
     try {
-      // Step 1: Encrypting
+      // Step 1: Encrypting PROJECT ID (not amount!)
       setCurrentStep(1);
-      toast.loading('🔐 Encrypting your donation...', { id: 'encrypting' });
+      toast.loading('🔐 Encrypting your project selection...', { id: 'encrypting' });
       setIsEncrypting(true);
 
-      // Convert ETH to Gwei (1 ETH = 1e9 Gwei)
-      // euint32 max: 4,294,967,295 Gwei = ~4.29 ETH
-      const amountGwei = BigInt(Math.floor(amountNum * 1e9));
-      // IMPORTANT: Encrypt for DONATION_ROUND contract, not QUADRATIC_FUNDING
-      // because processDonation() is called on DonationRound contract
-      const { encryptedAmount, proof } = await encryptDonation(
-        amountGwei,
-        CONTRACT_ADDRESSES.DONATION_ROUND,
+      // ENCRYPT THE PROJECT ID - this is the privacy feature!
+      // No one will know which project you're supporting
+      const { encryptedProjectId, proof } = await encryptProjectId(
+        Number(projectId!),
+        CONTRACT_ADDRESSES.DONATION_ROUND as `0x${string}`,
         userAddress
       );
-      
+
       toast.dismiss('encrypting');
       setIsEncrypting(false);
 
-      // Step 2: Submitting transaction
+      // Step 2: Submitting transaction with ETH value
       setCurrentStep(2);
-      toast.loading('📤 Submitting to blockchain...', { id: 'submitting' });
+      toast.loading('📤 Submitting anonymous donation...', { id: 'submitting' });
 
-      // IMPORTANT: Call processDonation directly on FHEDonationRound
-      // This avoids msg.sender mismatch when going through FHEQuadraticFunding
+      // Call donate() with encrypted project ID and send ETH
       const hash = await writeContractAsync({
         address: CONTRACT_ADDRESSES.DONATION_ROUND as `0x${string}`,
         abi: DONATION_ROUND_ABI,
-        functionName: 'processDonation',
+        functionName: 'donate',
         args: [
-          BigInt(round.id),           // roundId
-          BigInt(projectId!),         // projectId
-          encryptedAmount as `0x${string}`,  // encryptedAmountHandle
-          proof as `0x${string}`      // inputProof
+          BigInt(round.id),                      // roundId (public)
+          encryptedProjectId as `0x${string}`,   // ENCRYPTED project ID
+          proof as `0x${string}`                 // proof
         ],
+        value: parseEther(amount),  // Send ETH directly (amount is public)
       });
 
       setTxHash(hash);
       toast.dismiss('submitting');
 
-      // Step 3: Confirming
+      // Step 3: Confirming - show tx link while waiting
       setCurrentStep(3);
-      toast.loading('⏳ Waiting for confirmation...', { id: 'confirming' });
-
-      // Transaction submitted, now waiting for confirmation
-      // useEffect will handle success notification when isConfirmed becomes true
+      toast.loading(
+        <div className="space-y-1">
+          <p>Waiting for confirmation...</p>
+          <a
+            href={getTxExplorerUrl(hash)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline text-sm"
+          >
+            View transaction →
+          </a>
+        </div>,
+        { id: 'confirming' }
+      );
 
       setAmount('');
     } catch (error: any) {
       toast.dismiss('encrypting');
       toast.dismiss('submitting');
       toast.dismiss('confirming');
-      toast.error('❌ Donation failed', {
-        description: error.message || 'Failed to submit transaction',
-        duration: 5000,
+
+      // Parse error message for user-friendly display
+      let errorMessage = 'Failed to submit transaction';
+      if (error.message) {
+        if (error.message.includes('user rejected')) {
+          errorMessage = 'Transaction rejected by user';
+        } else if (error.message.includes('insufficient funds')) {
+          errorMessage = 'Insufficient ETH balance';
+        } else if (error.message.includes('gas')) {
+          errorMessage = 'Gas estimation failed - check contract state';
+        } else {
+          errorMessage = error.message.slice(0, 100);
+        }
+      }
+
+      toast.error('Donation failed', {
+        description: errorMessage,
+        duration: 8000,
       });
       setCurrentStep(0);
       setIsSubmitting(false);
       setIsEncrypting(false);
     }
-    // Note: Don't set isSubmitting to false here - let useEffect handle it after confirmation
   };
 
   return (
@@ -368,21 +407,21 @@ export default function ProjectDetail() {
             <p className="text-muted-foreground leading-relaxed">{project.description}</p>
           </div>
 
-          {/* Stats */}
+          {/* Stats - Now showing encrypted data */}
           <div className="grid grid-cols-2 gap-4">
             <div className="card-shadow rounded-lg border border-border bg-card p-6">
               <div className="flex items-center gap-3 mb-2">
                 <UserOutlined className="text-2xl text-primary" />
-                <div className="text-3xl font-bold text-foreground">{project.donorCount}</div>
+                <div className="text-3xl font-bold text-foreground">🔒</div>
               </div>
-              <div className="text-sm text-muted-foreground">Donors</div>
+              <div className="text-sm text-muted-foreground">Donor Count (Hidden)</div>
             </div>
             <div className="card-shadow rounded-lg border border-border bg-card p-6">
               <div className="flex items-center gap-3 mb-2">
                 <WalletOutlined className="text-2xl text-primary" />
-                <div className="text-3xl font-bold text-foreground">{project.totalDonations}</div>
+                <div className="text-3xl font-bold text-foreground">🔒</div>
               </div>
-              <div className="text-sm text-muted-foreground">Total Raised</div>
+              <div className="text-sm text-muted-foreground">Total Raised (Hidden)</div>
             </div>
           </div>
 
@@ -415,7 +454,7 @@ export default function ProjectDetail() {
         {/* Right: Donation Panel */}
         <div className="lg:col-span-1">
           <div className="card-shadow rounded-lg border border-border bg-card p-6 sticky top-24">
-            <h2 className="text-xl font-semibold text-foreground mb-6">Donate Now</h2>
+            <h2 className="text-xl font-semibold text-foreground mb-6">Donate Anonymously</h2>
 
             {/* Amount Input */}
             <div className="mb-6">
@@ -431,22 +470,22 @@ export default function ProjectDetail() {
                 className="text-lg"
                 min={minDonation}
                 max={maxDonation}
-                step="0.01"
+                step="0.001"
               />
               <p className="text-xs text-muted-foreground mt-2">
                 Min: {minDonation} ETH • Max: {maxDonation} ETH
               </p>
             </div>
 
-            {/* Privacy Notice */}
+            {/* Privacy Notice - Updated for new model */}
             <Card className="mb-6 bg-primary/5 border-primary/20">
               <div className="flex gap-3">
                 <LockOutlined className="text-primary text-xl flex-shrink-0 mt-1" />
                 <div className="text-sm text-foreground">
-                  <p className="font-medium mb-1">Complete Privacy</p>
+                  <p className="font-medium mb-1">Anonymous Voting</p>
                   <p className="text-muted-foreground">
-                    Your donation amount and identity will be encrypted using FHE before submission. 
-                    No one can see your contribution.
+                    Your <strong>project selection is encrypted</strong> using FHE.
+                    Everyone can see you donated, but <strong>no one knows which project</strong> you're supporting.
                   </p>
                 </div>
               </div>
@@ -475,7 +514,7 @@ export default function ProjectDetail() {
               onClick={handleDonate}
               disabled={!isValidAmount || isSubmitting || round.status !== 'active'}
             >
-              {isSubmitting ? 'Processing...' : 'Donate Now'}
+              {isSubmitting ? 'Processing...' : 'Donate Anonymously'}
             </Button>
 
             {round.status !== 'active' && (
