@@ -64,12 +64,11 @@ export default function Rounds() {
         rounds.push({
           id: Number(id),
           name,
-          description: '',
-          startDate: new Date(Number(startTime) * 1000).toISOString(),
-          endDate: new Date(Number(endTime) * 1000).toISOString(),
-          matchingPool: Number(matchingPool) / 1e9, // Convert from Gwei to ETH
-          totalDonations: 0,
-          totalDonors: 0,
+          startTime: Number(startTime) * 1000,
+          endTime: Number(endTime) * 1000,
+          matchingPool: `${(Number(matchingPool) / 1e18).toFixed(4)} ETH`,
+          minDonation: `${(Number(minDonation) / 1e18).toFixed(4)}`,
+          maxDonation: `${(Number(maxDonation) / 1e18).toFixed(4)}`,
           projectCount: 0,
           status
         });
