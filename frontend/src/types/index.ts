@@ -3,10 +3,10 @@ export interface Round {
   name: string;
   startTime: number;
   endTime: number;
-  matchingPool: string; // encrypted
+  matchingPool: string;
   minDonation: string;
   maxDonation: string;
-  status: 'active' | 'closed' | 'finalized' | 'cancelled';
+  status: 'active' | 'upcoming' | 'finalized' | 'closed' | 'cancelled';
   projectCount: number;
 }
 
@@ -27,11 +27,12 @@ export interface Project {
 export interface Donation {
   id: string;
   roundId: number;
-  projectId: number;
+  // projectId is ENCRYPTED - not visible to anyone
   donor: string;
-  amount: string; // encrypted
+  amount: string; // Public (ETH transfers are visible)
   timestamp: number;
   transactionHash: string;
+  blockNumber: number;
 }
 
 export interface EncryptedData {
@@ -39,4 +40,4 @@ export interface EncryptedData {
   proof: string;
 }
 
-export type RoundStatus = 'active' | 'closed' | 'finalized' | 'cancelled';
+export type RoundStatus = 'active' | 'upcoming' | 'closed' | 'finalized' | 'cancelled';
