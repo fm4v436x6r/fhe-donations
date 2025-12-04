@@ -10,6 +10,10 @@ const statusConfig = {
     label: 'Active',
     className: 'bg-success/10 text-success border-success/20',
   },
+  upcoming: {
+    label: 'Upcoming',
+    className: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
+  },
   closed: {
     label: 'Closed',
     className: 'bg-orange-500/10 text-orange-600 border-orange-500/20',
